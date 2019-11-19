@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>Button_col.qml</file>
+        <file>Song_slider.qml</file>
+        <file>Lane.qml</file>
+    </qresource>
+</RCC>
