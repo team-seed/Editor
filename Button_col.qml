@@ -30,8 +30,10 @@ Column {
         anchors.horizontalCenter: parent.horizontalCenter
         id:chart_save
         text:"Save Chart"
-        onClicked: savechart.open()
-
+        onClicked: {
+            part[0]["NOTES"] = line.noteOutput();
+            savechart.open()
+        }
         FileDialog{
             id : savechart
             fileMode: FileDialog.SaveFile
@@ -219,7 +221,7 @@ Column {
                                 combobox_content.append({"text":"PART"+(current_part+1)})
                                 combobox.currentIndex=current_part
                                 combobox.a
-                                line.setBeatLines(player.time,bpm);
+                                line.setBeatLines(player.time,bpm,beat);
                                 add_window.close()
                             }
                         }

@@ -10,6 +10,35 @@ QVector<LineItem> Line::items() const
     return mItems;
 }
 
+QVector<QString>Line::noteOutput()
+{
+    QVector<QString> Output;
+    QString temp ;
+
+    for(int i=1;i<mItems.size();i++){
+        temp = "";
+        temp +=QString::number(mItems[i].time)+',';
+        temp +=QString::number(mItems[i].gesture)+',';
+        temp +=QString::number(mItems[i].left)+',';
+        temp +=QString::number(mItems[i].right+1)+',';
+        temp +=QString::number(mItems[i].type)+',';
+
+        if(mItems[i].type==1)   {       // type Hold
+            while(mItems[i].turningPoint!=-1){
+                temp+="|";
+                i = mItems[i].turningPoint;
+                temp+= QString::number(mItems[i].time)+":";
+                temp+= QString::number(mItems[i].left)+":";
+                temp+= QString::number(mItems[i].right+1);
+            }
+        }
+        qDebug()<<"Line "<<mItems.size()-i<<" :"<<temp;
+        Output.push_back(temp);
+    }
+
+    return Output;
+}
+
 
 bool Line::setItemAt(int index, const LineItem &item,int role)   //設定mItems[index]
 {
@@ -54,10 +83,12 @@ bool Line::setItemAt(int index, const LineItem &item,int role)   //設定mItems[
     }
     qDebug()<<"第"<<mItems.size()-index<<"條BeatLine, 時間: "<<item.time<<
               "狀態 "<<status<<" left:"<<mItems[index].left<<" right "<<mItems[index].right;
+    /*測試type*/
+    mItems[index].type= (mItems[index].type+1)%3;
     return true;
 }
 
-void Line::setBeatLines(int time,int bpm)
+void Line::setBeatLines(int time,int bpm,int beat)
 {
     //Remove old line
     if(!mItems.empty()){
@@ -67,8 +98,13 @@ void Line::setBeatLines(int time,int bpm)
     }
     //Add new Line (time/(60/bpm*1000))
     double count = time/((double)60/bpm*1000);
+    qDebug()<<beat;
     for(int i=0;i<count+1;i++){
-        appendItem((int)count+1,bpm);
+        if((i+1)%beat==0){
+            appendItem((int)count+1,bpm,10);
+        }
+        else
+            appendItem((int)count+1,bpm,5);
     }
 }
 
@@ -77,15 +113,21 @@ void Line::setType(int, int)
 
 }
 
-void Line::appendItem(int count,int bpm)
+void Line::appendItem(int count,int bpm,int bold)
 {
     emit preItemAppended();
 
     LineItem item;
     for(int i=0;i<16;i++)
         item.checked[i] = false;
-    mItems.append(item);
+    item.bold = bold;
     item.time = (count-mItems.size()+1)*((double)60/bpm*1000);
+    item.type = 1;
+    item.left = -1;
+    item.right = -1;
+    item.turningPoint = -1;
+    item.gesture = 0;
+    mItems.append(item);
     emit postItemAppended();
 }
 

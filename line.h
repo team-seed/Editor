@@ -11,7 +11,7 @@ struct LineItem{        /*定義一個Line*/
     int right;
     int gesture;
     int time;
-
+    int bold;
 };
 
 class Line : public QObject
@@ -21,7 +21,6 @@ public:
     explicit Line(QObject *parent = nullptr);
 
     QVector<LineItem> items() const;
-
     bool setItemAt(int index,const LineItem &item,int role);
 signals:
     void preItemAppended();
@@ -31,9 +30,10 @@ signals:
     void postItemRemoved();
 
 public slots:
-    void setBeatLines(int ,int );
+    QVector<QString> noteOutput();
+    void setBeatLines(int ,int,int);
     void setType(int,int);
-    void appendItem(int,int);
+    void appendItem(int,int,int);
 
 private:
     QVector <LineItem> mItems;
