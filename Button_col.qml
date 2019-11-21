@@ -209,8 +209,7 @@ Column {
 
                                 detail.text=("Part : "+(current_part+1)+"\n"+
                                        　    "BPM : "+part[current_part]["BPM"]+"\n"+
-                                             "OFFSET : "+part[current_part]["OFFSET"]+"\n"+
-                                             "NOTES : "+part[current_part]["NOTES"])
+                                             "OFFSET : "+part[current_part]["OFFSET"])
 
                                 bpm_input.text=""
                                 offset_input.text=""
@@ -222,6 +221,47 @@ Column {
                                 add_window.close()
                             }
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    //delete section
+    Button{
+        id:delete_part
+        text:"Delete section"
+        onClicked:delete_window.show()
+        Window{
+            id:delete_window
+            title:"Section Delete"
+
+            Rectangle{
+                id:delete_background
+                anchors.fill:parent
+            }
+
+            Column{
+                ComboBox{
+                    id:combobox_delete
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    width: parent.width
+                    height: play_button.height
+                    font.pixelSize: 16
+                    model: combobox_content
+                }
+                Button{
+                    text: "Delete"
+                    onClicked: {
+                        if(combobox.currentIndex==combobox_delete.currentIndex){
+                            combobox.currentIndex=0
+                            detail.text=""
+                        }//兩個part2
+                        combobox_content.remove(combobox_delete.currentIndex)
+                        combobox.currentIndex--
+                        part.splice(combobox_delete.currentIndex,1)
+                        console.log(part.length)
+                        delete_window.close()
                     }
                 }
             }
@@ -245,10 +285,8 @@ Column {
             current_part=currentIndex
             detail.text=("Part : "+(current_part+1)+"\n"+
                          "BPM : "+part[current_part]["BPM"]+"\n"+
-                         "OFFSET : "+part[current_part]["OFFSET"]+"\n"+
-                         "NOTES : "+part[current_part]["NOTES"])
+                         "OFFSET : "+part[current_part]["OFFSET"])
         }
-
     }
 
     //show detail
