@@ -44,7 +44,6 @@ bool LineModel::setData(const QModelIndex &index, const QVariant &value, int rol
         return false;
     LineItem item = mLine->items().at(index.row());
     item.checked[role%16] = value.toBool();
-
     if (mLine->setItemAt(index.row(), item,role%16)) {
         emit dataChanged(index, index, QVector<int>());
         return true;

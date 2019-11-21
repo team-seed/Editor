@@ -217,9 +217,8 @@ Column {
                                 offset_input.text=""
                                 beat_input.text=""
 
-                                combobox_content.append({"text":"PART"+(current_part+1)})
-                                combobox.currentIndex=current_part
-                                combobox.a
+                                select_part_content.append({"text":"PART"+(current_part+1)})
+                                part_select.currentIndex=current_part
                                 line.setBeatLines(player.time,bpm,beat);
                                 add_window.close()
                             }
@@ -309,6 +308,7 @@ Column {
         }
         onActivated :{
             current_gesture=gesture_select.currentIndex
+            line.setGesture(gesture_select.currentIndex)
         }
         Component.onCompleted: {
             for(var i=0;i<gesture.length;i++)
@@ -331,10 +331,16 @@ Column {
         }
         onActivated :{
             current_type=type_select.currentIndex
+            line.setType(type_select.currentIndex)
         }
         Component.onCompleted: {
             for(var i=0;i<type.length;i++)
-                type_select_content.append({"text":"TYPE"+i})
+                if(i==0)
+                    type_select_content.append({"text":"CLICK"})
+                else if(i==1)
+                    type_select_content.append({"text":"HOLD"})
+                else if(i==2)
+                    type_select_content.append({"text":"SWIPE"})
         }
     }
 

@@ -12,6 +12,7 @@ struct LineItem{        /*定義一個Line*/
     int gesture;
     int time;
     int bold;
+    int direction;
 };
 
 class Line : public QObject
@@ -32,11 +33,16 @@ signals:
 public slots:
     QVector<QString> noteOutput();
     void setBeatLines(int ,int,int);
-    void setType(int,int);
+    void setType(int);
+    void setGesture(int);
+    void setDirection(int);
     void appendItem(int,int,int);
 
 private:
     QVector <LineItem> mItems;
+    int mType;
+    int mGesture;
+    int mDirection;
 };
 
 #endif // LINE_H

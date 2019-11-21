@@ -32,6 +32,10 @@ QVector<QString>Line::noteOutput()
                 temp+= QString::number(mItems[i].right+1);
             }
         }
+        else if(mItems[i].type==2){
+            temp+="|";
+            temp+=QString::number(mItems[i].direction);
+        }
         qDebug()<<"Line "<<mItems.size()-i<<" :"<<temp;
         Output.push_back(temp);
     }
@@ -83,8 +87,9 @@ bool Line::setItemAt(int index, const LineItem &item,int role)   //設定mItems[
     }
     qDebug()<<"第"<<mItems.size()-index<<"條BeatLine, 時間: "<<item.time<<
               "狀態 "<<status<<" left:"<<mItems[index].left<<" right "<<mItems[index].right;
-    /*測試type*/
-    mItems[index].type= (mItems[index].type+1)%3;
+    /*設定type gesture*/
+    mItems[index].type = mType;
+    mItems[index].gesture = mGesture;
     return true;
 }
 
@@ -104,13 +109,26 @@ void Line::setBeatLines(int time,int bpm,int beat)
             appendItem((int)count+1,bpm,10);
         }
         else
-            appendItem((int)count+1,bpm,5);
+            appendItem((int)count+1,bpm,2);
     }
 }
 
-void Line::setType(int, int)
+void Line::setType(int type)
 {
+    qDebug()<<type;
+    mType = type;
+}
 
+void Line::setGesture(int gesture)
+{
+    qDebug()<<gesture;
+    mGesture = gesture;
+}
+
+void Line::setDirection(int direction)
+{
+    qDebug()<<direction;
+    mDirection = direction;
 }
 
 void Line::appendItem(int count,int bpm,int bold)
