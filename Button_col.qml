@@ -218,6 +218,7 @@ Column {
                                 combobox_content.append({"text":"PART"+(current_part+1)})
                                 combobox.currentIndex=current_part
                                 combobox.a
+                                line.setBeatLines(player.time,bpm);
                                 add_window.close()
                             }
                         }

@@ -4,5 +4,6 @@
         <file>Button_col.qml</file>
         <file>Song_slider.qml</file>
         <file>Lane.qml</file>
+        <file>ButtonLine.qml</file>
     </qresource>
 </RCC>
