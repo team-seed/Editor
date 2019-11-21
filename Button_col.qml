@@ -211,8 +211,7 @@ Column {
 
                                 detail.text=("Part : "+(current_part+1)+"\n"+
                                        　    "BPM : "+part[current_part]["BPM"]+"\n"+
-                                             "OFFSET : "+part[current_part]["OFFSET"]+"\n"+
-                                             "NOTES : "+part[current_part]["NOTES"])
+                                             "OFFSET : "+part[current_part]["OFFSET"])
 
                                 bpm_input.text=""
                                 offset_input.text=""
@@ -231,27 +230,112 @@ Column {
         }
     }
 
+    //delete section
+    Button{
+        id:delete_part
+        text:"Delete section"
+        onClicked:delete_window.show()
+        Window{
+            id:delete_window
+            title:"Section Delete"
+
+            Rectangle{
+                id:delete_background
+                anchors.fill:parent
+            }
+
+            Column{
+                ComboBox{
+                    id:combobox_delete
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    width: parent.width
+                    height: play_button.height
+                    font.pixelSize: 16
+                    model: select_part_content
+                }
+                Button{
+                    text: "Delete"
+                    onClicked: {
+                        if(part_select.currentIndex==combobox_delete.currentIndex){
+                            part_select.currentIndex=0
+                            detail.text=""
+                        }//兩個part2
+                        for(var i=combobox_delete.currentIndex+1;i<=part_select.currentIndex;i++)
+                            select_part_content.setProperty(i,"text","PART"+i)
+
+                        select_part_content.remove(combobox_delete.currentIndex)
+                        part.splice(combobox_delete.currentIndex,1)
+
+                        delete_window.close()
+                    }
+                }
+            }
+        }
+    }
+
     //part setting
     Text {
         text: "Part Set"
     }
     ComboBox{
         anchors.horizontalCenter: parent.horizontalCenter
-        id:combobox
+        id:part_select
         width: parent.width
         height: play_button.height
         font.pixelSize: 16
         model: ListModel{
-            id:combobox_content
+            id:select_part_content
         }
         onActivated :{
             current_part=currentIndex
             detail.text=("Part : "+(current_part+1)+"\n"+
                          "BPM : "+part[current_part]["BPM"]+"\n"+
-                         "OFFSET : "+part[current_part]["OFFSET"]+"\n"+
-                         "NOTES : "+part[current_part]["NOTES"])
+                         "OFFSET : "+part[current_part]["OFFSET"])
         }
+    }
 
+    //手勢
+    Text {
+        text: "Gesture Set"
+    }
+    ComboBox{
+        anchors.horizontalCenter: parent.horizontalCenter
+        id:gesture_select
+        width: parent.width
+        height: play_button.height
+        font.pixelSize: 16
+        model: ListModel{
+            id:gesture_select_content
+        }
+        onActivated :{
+            current_gesture=gesture_select.currentIndex
+        }
+        Component.onCompleted: {
+            for(var i=0;i<gesture.length;i++)
+                gesture_select_content.append({"text":"GES"+i})
+        }
+    }
+
+    //type
+    Text {
+        text: "Type Set"
+    }
+    ComboBox{
+        anchors.horizontalCenter: parent.horizontalCenter
+        id:type_select
+        width: parent.width
+        height: play_button.height
+        font.pixelSize: 16
+        model: ListModel{
+            id:type_select_content
+        }
+        onActivated :{
+            current_type=type_select.currentIndex
+        }
+        Component.onCompleted: {
+            for(var i=0;i<type.length;i++)
+                type_select_content.append({"text":"TYPE"+i})
+        }
     }
 
     //show detail
