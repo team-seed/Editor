@@ -215,9 +215,8 @@ Column {
                                 offset_input.text=""
                                 beat_input.text=""
 
-                                combobox_content.append({"text":"PART"+(current_part+1)})
-                                combobox.currentIndex=current_part
-                                combobox.a
+                                select_part_content.append({"text":"PART"+(current_part+1)})
+                                part_select.currentIndex=current_part
                                 line.setBeatLines(player.time,bpm);
                                 add_window.close()
                             }
@@ -329,10 +328,42 @@ Column {
         }
         onActivated :{
             current_type=type_select.currentIndex
+            if(current_type==2){
+                direc_visibility.visible = true
+            }
         }
         Component.onCompleted: {
             for(var i=0;i<type.length;i++)
                 type_select_content.append({"text":"TYPE"+i})
+        }
+    }
+    //方向設定
+    Text {
+        text: "Direc Set"
+    }
+    ComboBox{
+        anchors.horizontalCenter: parent.horizontalCenter
+        id:direc_select
+        width: parent.width
+        height: play_button.height
+        font.pixelSize: 16
+        model: ListModel{
+            id:direc_select_content
+        }
+        onActivated :{
+            current_direc=direc_select.currentIndex
+        }
+        Component.onCompleted: {
+            for(var i=0;i<type.length;i++){
+                if(i==0)
+                    direc_select_content.append({"text":"Up"})
+                else if(i==1)
+                    direc_select_content.append({"text":"Down"})
+                else if(i==2)
+                    direc_select_content.append({"text":"Left"})
+                else
+                    direc_select_content.append({"text":"Right"})
+            }
         }
     }
 

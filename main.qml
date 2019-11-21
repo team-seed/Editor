@@ -25,6 +25,9 @@ Window {
     //note 類型
     property variant type: [0,1,2]
     property variant current_type: 0
+    //swipe 方向
+    property variant direc: [0,1,2,3]     //上下左右
+    property variant current_direc: 0
 
     //back ground
     Item {

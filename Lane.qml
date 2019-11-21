@@ -15,10 +15,12 @@ Rectangle {
         clip:true
         focus: true
         focusPolicy: Qt.WheelFocus
-
+        anchors.bottom: parent.bottom
         ListView{
+            anchors.bottom: parent.bottom
+            id:chart_view
             clip: true
-            //spacing: (60/bpm*500)
+            contentY: song_slider.value
             model: LineModel{
                 mline: line
             }
@@ -26,36 +28,8 @@ Rectangle {
                 width:parent.width
             }
         }
-        /*
-        Rectangle{
-            anchors.bottom: parent.bottom
-            id: chart1
-            color:"gainsboro"
-            height: 500//player.time/2
-            width: parent.width
-        }
-        Rectangle{
-            anchors.bottom: chart1.top
-            id: chart2
-            color:"red"
-            height: 500
-            width: parent.width
-        }*/
-    }/*
-    RowLayout{
-        anchors.bottom: parent.bottom
-        width: parent.width
-        Button{
-            text:qsTr("Add new item")
-            onClicked: line.appendItem()
-            Layout.fillWidth: true
-        }
-        Button{
-            text:qsTr("Removed Completed")
-            onClicked: line.removeCompletedItems()
-            Layout.fillWidth: true
-        }
-    }*/
+    }
+
     //left
     Rectangle{
         color: "darkblue"
@@ -117,8 +91,9 @@ Rectangle {
         anchors.bottomMargin: parent.height/5
     }
 
-    /*
+/*
     MouseArea{
+
         anchors.fill: parent
         onWheel: {
             if (wheel.modifiers && Qt.ControlModifier) {
