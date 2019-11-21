@@ -332,6 +332,7 @@ Column {
         onActivated :{
             current_type=type_select.currentIndex
             line.setType(type_select.currentIndex)
+            
         }
         Component.onCompleted: {
             for(var i=0;i<type.length;i++)
@@ -341,6 +342,35 @@ Column {
                     type_select_content.append({"text":"HOLD"})
                 else if(i==2)
                     type_select_content.append({"text":"SWIPE"})
+        }
+    }
+    //方向設定
+    Text {
+        text: "Direc Set"
+    }
+    ComboBox{
+        anchors.horizontalCenter: parent.horizontalCenter
+        id:direc_select
+        width: parent.width
+        height: play_button.height
+        font.pixelSize: 16
+        model: ListModel{
+            id:direc_select_content
+        }
+        onActivated :{
+            current_direc=direc_select.currentIndex
+        }
+        Component.onCompleted: {
+            for(var i=0;i<type.length;i++){
+                if(i==0)
+                    direc_select_content.append({"text":"Up"})
+                else if(i==1)
+                    direc_select_content.append({"text":"Down"})
+                else if(i==2)
+                    direc_select_content.append({"text":"Left"})
+                else
+                    direc_select_content.append({"text":"Right"})
+            }
         }
     }
 
