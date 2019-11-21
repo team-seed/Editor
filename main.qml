@@ -10,12 +10,21 @@ Window {
     title: qsTr("Hello World")
     property bool play_state: false
     property double start_time: Date.now()
+
+    //譜設定
     property double bpm: 0
     property int offset: 0
     property int beat: 0
     property variant notes: []
     property variant part: []
     property int current_part: -1
+
+    //手勢
+    property variant gesture: [0,1]
+    property variant current_gesture: 0
+    //note 類型
+    property variant type: [0,1,2]
+    property variant current_type: 0
 
     //back ground
     Item {

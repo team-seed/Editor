@@ -249,19 +249,21 @@ Column {
                     width: parent.width
                     height: play_button.height
                     font.pixelSize: 16
-                    model: combobox_content
+                    model: select_part_content
                 }
                 Button{
                     text: "Delete"
                     onClicked: {
-                        if(combobox.currentIndex==combobox_delete.currentIndex){
-                            combobox.currentIndex=0
+                        if(part_select.currentIndex==combobox_delete.currentIndex){
+                            part_select.currentIndex=0
                             detail.text=""
                         }//兩個part2
-                        combobox_content.remove(combobox_delete.currentIndex)
-                        combobox.currentIndex--
+                        for(var i=combobox_delete.currentIndex+1;i<=part_select.currentIndex;i++)
+                            select_part_content.setProperty(i,"text","PART"+i)
+
+                        select_part_content.remove(combobox_delete.currentIndex)
                         part.splice(combobox_delete.currentIndex,1)
-                        console.log(part.length)
+
                         delete_window.close()
                     }
                 }
@@ -275,18 +277,62 @@ Column {
     }
     ComboBox{
         anchors.horizontalCenter: parent.horizontalCenter
-        id:combobox
+        id:part_select
         width: parent.width
         height: play_button.height
         font.pixelSize: 16
         model: ListModel{
-            id:combobox_content
+            id:select_part_content
         }
         onActivated :{
             current_part=currentIndex
             detail.text=("Part : "+(current_part+1)+"\n"+
                          "BPM : "+part[current_part]["BPM"]+"\n"+
                          "OFFSET : "+part[current_part]["OFFSET"])
+        }
+    }
+
+    //手勢
+    Text {
+        text: "Gesture Set"
+    }
+    ComboBox{
+        anchors.horizontalCenter: parent.horizontalCenter
+        id:gesture_select
+        width: parent.width
+        height: play_button.height
+        font.pixelSize: 16
+        model: ListModel{
+            id:gesture_select_content
+        }
+        onActivated :{
+            current_gesture=gesture_select.currentIndex
+        }
+        Component.onCompleted: {
+            for(var i=0;i<gesture.length;i++)
+                gesture_select_content.append({"text":"GES"+i})
+        }
+    }
+
+    //type
+    Text {
+        text: "Type Set"
+    }
+    ComboBox{
+        anchors.horizontalCenter: parent.horizontalCenter
+        id:type_select
+        width: parent.width
+        height: play_button.height
+        font.pixelSize: 16
+        model: ListModel{
+            id:type_select_content
+        }
+        onActivated :{
+            current_type=type_select.currentIndex
+        }
+        Component.onCompleted: {
+            for(var i=0;i<type.length;i++)
+                type_select_content.append({"text":"TYPE"+i})
         }
     }
 
