@@ -7,7 +7,7 @@ class Line;
 class LineModel : public QAbstractListModel
 {
     Q_OBJECT
-    Q_PROPERTY(Line *mline READ mline WRITE setMline )
+    Q_PROPERTY(Line *mline READ mline WRITE setMline)
 public:
     explicit LineModel(QObject *parent = nullptr);
 
@@ -30,7 +30,6 @@ public:
     virtual QHash<int, QByteArray> roleNames() const override;
     Line *mline() const;
     void setMline(Line *mline);
-
 private:
     Line *mLine;
 };
