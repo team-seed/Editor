@@ -136,6 +136,7 @@ Column {
                         }
 
                         TextInput{
+                            text: "60"
                             id: bpm_input
                             selectByMouse : true
                             selectionColor : "gray"
@@ -157,6 +158,7 @@ Column {
                             onClicked: offset_input.focus = true
                         }
                         TextInput{
+                            text:"0"
                             id: offset_input
                             selectByMouse : true
                             selectionColor : "gray"
@@ -180,6 +182,7 @@ Column {
                         }
 
                         TextInput{
+                            text: "4"
                             id: beat_input
                             selectByMouse : true
                             selectionColor : "gray"
@@ -218,6 +221,7 @@ Column {
                                 select_part_content.append({"text":"PART"+(current_part+1)})
                                 part_select.currentIndex=current_part
                                 line.setBeatLines(player.time,bpm);
+
                                 add_window.close()
                             }
                         }
@@ -354,7 +358,7 @@ Column {
             current_direc=direc_select.currentIndex
         }
         Component.onCompleted: {
-            for(var i=0;i<type.length;i++){
+            for(var i=0;i<direc.length;i++){
                 if(i==0)
                     direc_select_content.append({"text":"Up"})
                 else if(i==1)

@@ -5,23 +5,24 @@ import QtQuick.Layouts 1.12
 
 Rectangle {
     id:lane_background
+    property int view_height: 0
 
     width:height*0.7
     height:background.height*0.95
-    //chart
+
     ScrollView{
         id:sv
         anchors.fill:parent
         clip:true
         focus: true
         focusPolicy: Qt.WheelFocus
-        anchors.bottom: parent.bottom
+
         ListView{
-            anchors.bottom: parent.bottom
             id:chart_view
+            contentY: player.time+10000
             clip: true
-            contentY: song_slider.value
             model: LineModel{
+                id:model
                 mline: line
             }
             delegate:ButtonLine{
@@ -90,7 +91,6 @@ Rectangle {
         anchors.bottom:parent.bottom
         anchors.bottomMargin: parent.height/5
     }
-
 /*
     MouseArea{
 
