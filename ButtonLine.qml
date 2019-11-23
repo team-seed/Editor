@@ -4,8 +4,6 @@ import QtQuick.Layouts 1.12
 import QtQuick.Shapes 1.12
 
 RowLayout{
-
-
     Button{
         id:b1
         height: 5
@@ -77,7 +75,6 @@ RowLayout{
             anchors.topMargin: 10
         }
     }
-
     Button{
         id:b2
         height: 5

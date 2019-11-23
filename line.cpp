@@ -288,9 +288,9 @@ void Line::setBeatLines(int time,int bpm,int beat,int offset)
         mItems.clear();
         emit postItemRemoved();
     }
+
     //Add new Line (time/(60/bpm*1000))
     int count = ceil( time/((double)60/bpm*1000) );
-
     double spacing = (double)60/bpm*1000;
     double height = count * spacing;
 

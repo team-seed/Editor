@@ -55,7 +55,8 @@ Slider {
 
     //播完歸零
     onValueChanged: {
-        lane.contenty=(lane.contenty-200*lane.billy)
+        //lane.contenty=view_height-(song_slider.value*lane.billy)
+        //console.log(lane.contenty)
         if(player.position==player.time){
             player.pause()
             play_state = false

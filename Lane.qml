@@ -5,13 +5,15 @@ import QtQuick.Layouts 1.12
 
 Rectangle {
     id:lane_background
+    property bool first_insert: false
     //property int view_height: 0
-    property int contenty: buttonline.view_height
+    property int contenty: view_height
     //比例 ㄏㄏ
     property double billy: 1
     width:height*0.7
     height:background.height*0.95
     color: "gray"
+
     //chart
     ScrollView{
         id:sv
@@ -23,23 +25,33 @@ Rectangle {
         ListView{
             id:chart_view
             clip: true
+            contentY: contenty
             model: LineModel{
-                id:model
+                id: line_model
                 mline: line
             }
             delegate:ButtonLine{
                 width:parent.width
                 visible: true
             }
+            onContentYChanged:{/*
+                if(contentY-chart_center>0)
+                    song_slider.value = contentY-chart_center
+                else if(contentY-chart_center<0)
+                    song_slider.value = chart_center-contentY*/
+                song_slider.value= ((chart_center+view_height/2)-contentY)/billy
+                //console.log(chart_view.contentY)
+            }
         }
-        /*
+
         Keys.onPressed: {
             if (event.key == Qt.Key_Control) {
-                console.log(contenty)
+                console.log("!")
                 mouse.z = 1
                 mouse.focus=true
             }
-        }*/
+        }
+
     }
 
     //left
@@ -102,19 +114,44 @@ Rectangle {
         width: parent.width
         anchors.bottom:parent.bottom
         anchors.bottomMargin: parent.height/5
+        Component.onCompleted: chart_bottom_padding=height
     }
-/*
+
+    Button{
+        onClicked: {
+            console.log(parent.height)
+            console.log(view_height)
+            console.log(chart_view.contentY)
+        }
+    }
+
     //scale lane size
     MouseArea{
         id: mouse
         anchors.fill: sv
         z: -1
         onWheel: {
+            chart_center=chart_center
+            contenty=contenty
             if (wheel.modifiers){
-                if(wheel.angleDelta.y<0)
-                   lane_background.contenty*=0.95
-                if(wheel.angleDelta.y>0)
-                    lane_background.contenty*=1.05
+                if(wheel.angleDelta.y<0){
+                   button_height*=0.95
+                   if(chart_view.contentY-chart_center>0)
+                       chart_view.contentY=chart_center+(chart_view.contentY-chart_center)*0.95
+                   else if(chart_view.contentY-chart_center<0)
+                       chart_view.contentY=chart_center-(chart_center-chart_view.contentY)*0.95
+                   view_height*= 0.95
+                   billy*=0.95
+                }
+                if(wheel.angleDelta.y>0){
+                    button_height*=1.05
+                    if(chart_view.contentY-chart_center>0)
+                        chart_view.contentY=(chart_view.contentY-chart_center)*1.05
+                    else if(chart_view.contentY-chart_center<0)
+                        chart_view.contentY=(chart_center-chart_view.contentY)*1.05
+                    view_height*= 1.05
+                    billy*=1.05
+                }
             }
         }
         Keys.onReleased: {
@@ -124,5 +161,5 @@ Rectangle {
              }
         }
     }
-*/
+
 }

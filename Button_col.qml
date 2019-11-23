@@ -9,6 +9,7 @@ Column {
     property variant all_chart: {"BPM_RANGE" :0 ,"SECTION": part}
     property string str_part: ""
     property variant temp:[]
+
     //Open Chart
     Button{
         anchors.horizontalCenter: parent.horizontalCenter
