@@ -55,6 +55,7 @@ Slider {
 
     //播完歸零
     onValueChanged: {
+        lane.contenty=(lane.contenty-200*lane.billy)
         if(player.position==player.time){
             player.pause()
             play_state = false
