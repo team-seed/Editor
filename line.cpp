@@ -18,7 +18,8 @@ QVector<QString>Line::noteOutput()
     QVector<QString> Output;
     QString temp ;
 
-    for(int i=1;i<mItems.size();i++){
+    for(int i=mItems.size()-1;i>0;i--){
+        if(mItems[i].type==-1)  continue;
         temp = "";
         temp +=QString::number(mItems[i].time)+',';
         temp +=QString::number(mItems[i].gesture)+',';
@@ -33,14 +34,15 @@ QVector<QString>Line::noteOutput()
                 temp+= QString::number(mItems[i].time)+":";
                 temp+= QString::number(mItems[i].left)+":";
                 temp+= QString::number(mItems[i].right+1);
+                qDebug()<<"turning"<<i;
             }
         }
         else if(mItems[i].type==2){
             temp+="|";
             temp+=QString::number(mItems[i].direction);
         }
-        qDebug()<<"Line "<<mItems.size()-i<<" :"<<temp;
         Output.push_back(temp);
+        qDebug()<<i;
     }
 
     return Output;
@@ -61,7 +63,7 @@ bool Line::setItemAt(int index, const LineItem &item,int role)   //設定mItems[
     }
     if(flag==false) return false;
     /*檢查是否有設定Gesture/Type/Direction*/
-    qDebug()<<"Ges"<<mGesture<<"Type"<<mType<<"Direction"<<mDirection;
+   // qDebug()<<"Ges"<<mGesture<<"Type"<<mType<<"Direction"<<mDirection;
     if(mGesture==-1){
         qDebug()<<"未設定Gesture";
         return false;
@@ -135,6 +137,7 @@ bool Line::setItemAt(int index, const LineItem &item,int role)   //設定mItems[
         mItems[index].turningPoint = -1;
         holdList.clear();
     }
+    qDebug()<<"index "<<index<<" turning "<<mItems[index].turningPoint;
     return true;
 }
 
