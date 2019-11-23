@@ -42,6 +42,8 @@ QVariant LineModel::data(const QModelIndex &index, int role) const
             return QVariant(item.turningPoint);
         case previousRole:
             return QVariant(item.previous);
+        case buttonHeightRole:
+            return QVariant(item.buttonHeight);
         default:
             return QVariant(item.checked[role%16]);
     }
@@ -85,6 +87,7 @@ QHash<int, QByteArray> LineModel::roleNames() const
     names[typeRole] = "type";names[gestureRole] = "gesture";names[boldRole] = "bold";
     names[directionRole] = "direction"; names[leftRole] = "left"; names[rightRole] =  "right";
     names[turingPointRole] = "turningPoint"; names[previousRole] = "previous";
+    names[buttonHeightRole] = "button_height";
     return names;
 }
 

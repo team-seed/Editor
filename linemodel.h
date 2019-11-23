@@ -17,7 +17,8 @@ public:
         B10,B11,B12,B13,B14,B15,B16,
         typeRole,gestureRole,boldRole,
         directionRole,leftRole,rightRole,
-        turingPointRole,previousRole
+        turingPointRole,previousRole,
+        buttonHeightRole
     };
     // Basic functionality:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;

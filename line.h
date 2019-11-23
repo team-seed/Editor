@@ -16,6 +16,7 @@ struct LineItem{        /*定義一個Line*/
     int time;
     int bold;
     int direction;
+    double buttonHeight;
 };
 
 class Line : public QObject
@@ -34,13 +35,13 @@ signals:
     void postItemRemoved();
 
 public slots:
-    void loadNotes(QJsonObject input);
+    bool loadNotes(int,QJsonObject );
     QVector<QString> noteOutput();
-    void setBeatLines(int ,int,int);
+    void setBeatLines(int ,int,int,int);
     void setType(int);
     void setGesture(int);
     void setDirection(int);
-    void appendItem(int,int,int);
+    void appendItem(int,int,int,double);
     int shapeLeft(int);
     int shapeRight(int);
     int shapeHeight(int,int,double);
@@ -48,6 +49,7 @@ public slots:
 private:
     QVector <LineItem> mItems;
     QVector <int> holdList;
+    int moffset;
     int mType;
     int mGesture;
     int mDirection;
