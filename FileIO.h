@@ -36,6 +36,7 @@ public slots:
         if (!jsonDocument.isNull() && (jsonError.error == QJsonParseError::NoError))
             json_data=jsonDocument.object();
 
+        file.close();
         return json_data;
     }
 
@@ -50,6 +51,7 @@ public slots:
         }
 
         file.write(data);
+        file.close();
         return 1;
     }
     void test(QJsonObject a){

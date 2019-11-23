@@ -1,5 +1,6 @@
 #include "line.h"
 #include <QDebug>
+#include <QJsonArray>
 
 Line::Line(QObject *parent) : QObject(parent)
 {
@@ -175,6 +176,16 @@ void Line::resetItemAt(int index)
     mItems[index].type = -1;
     mItems[index].gesture = -1;
     mItems[index].direction = -1;
+}
+
+void Line::loadNotes(QJsonObject input)
+{
+    qDebug()<<input.value("NOTES");
+    QJsonArray notes = input.value("NOTES").toArray();
+    //qDebug()<<notes;
+    for(int i=0;i<notes.size();i++){
+        qDebug()<<notes[i];
+    }
 }
 
 void Line::setBeatLines(int time,int bpm,int beat)

@@ -14,13 +14,18 @@ Column {
         anchors.horizontalCenter: parent.horizontalCenter
         id:chart_open
         text:"Open Chart"
-        onClicked: openchart.open()
-
+        onClicked: {
+            openchart.open()
+        }
         FileDialog{
             id : openchart
             onAccepted:{
                 all_chart=fileIO.openchart(file)
-                console.log(all_chart["SECTION"][0]["BEAT"])
+                //console.log(all_chart["SECTION"][0]["NOTES"])
+                if(all_chart.length===0)
+                    console.log("Error")
+                else
+                    line.loadNotes(all_chart["SECTION"][0]);
             }
         }
     }
@@ -35,7 +40,7 @@ Column {
             for(var i=0;i<temp.length;i++){
                 part[0]["NOTES"][i] = temp[i];
             }
-            console.log(part[0]["NOTES"][0])
+            console.log(all_chart)
             savechart.open()
         }
         FileDialog{

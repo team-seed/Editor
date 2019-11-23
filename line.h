@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QVector>
+#include <QJsonObject>
+
 struct LineItem{        /*定義一個Line*/
     bool checked[16];
     int type;           /*(0,Click),(1,Swipe),(2,Hold)*/
@@ -32,6 +34,7 @@ signals:
     void postItemRemoved();
 
 public slots:
+    void loadNotes(QJsonObject input);
     QVector<QString> noteOutput();
     void setBeatLines(int ,int,int);
     void setType(int);
