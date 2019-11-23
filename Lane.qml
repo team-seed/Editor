@@ -6,7 +6,7 @@ import QtQuick.Layouts 1.12
 Rectangle {
     id:lane_background
     //property int view_height: 0
-    property int contenty: player.time+10000
+    property int contenty: buttonline.view_height
     //比例 ㄏㄏ
     property double billy: 1
     width:height*0.7

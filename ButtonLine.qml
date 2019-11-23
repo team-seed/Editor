@@ -4,7 +4,15 @@ import QtQuick.Layouts 1.12
 import QtQuick.Shapes 1.12
 
 RowLayout{
-    property int button_height: (60/bpm*1000)
+    //按鈕高度
+    property double button_height: (60/bpm*1000)
+    //按鈕數量
+    property double button_count : player.time/(60/bpm*1000)
+    //譜面高度
+    property int view_height: button_height*button_count
+    //譜面最上方額外部分
+    property int  view_toppadding: player.time-view_height
+
     Button{
         id:b1
         height: 5
@@ -37,7 +45,7 @@ RowLayout{
                 strokeColor: "white"
                 fillGradient: LinearGradient {
                     x1:  model.left*lane_background.width/16; y1: 0
-                    x2:(line.shapeRight(model.previous)+1)*lane_background.width/16 ; y2: line.shapeHeight(model.previous,bpm)
+                    x2:(line.shapeRight(model.previous)+1)*lane_background.width/16 ; y2: line.shapeHeight(model.previous,bpm,button_height)
                     GradientStop { position: 0; color: "lightsalmon" }
                     GradientStop { position: 0.2; color: "tomato" }
                     GradientStop { position: 0.4; color: "red" }
@@ -48,8 +56,8 @@ RowLayout{
                 //dashPattern: [ 1, 4 ]
                 startX: model.left*lane_background.width/16; startY: 0
                 PathLine { x:(model.right+1)*lane_background.width/16; y: 0 }
-                PathLine { x:(line.shapeRight(model.previous)+1)*lane_background.width/16; y: line.shapeHeight(model.previous,bpm)}
-                PathLine { x:(line.shapeLeft(model.previous))*lane_background.width/16 ; y: line.shapeHeight(model.previous,bpm)}
+                PathLine { x:(line.shapeRight(model.previous)+1)*lane_background.width/16; y: line.shapeHeight(model.previous,bpm,button_height)}
+                PathLine { x:(line.shapeLeft(model.previous))*lane_background.width/16 ; y: line.shapeHeight(model.previous,bpm,button_height)}
                 PathLine { x:model.left*lane_background.width/16   ; y: 0}
             }
         }

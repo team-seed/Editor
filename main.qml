@@ -34,7 +34,9 @@ Window {
         id:background
         anchors.fill: parent
     }
-
+    ButtonLine{
+        id:buttonline
+    }
     //Lane
     Lane{
         id:lane
