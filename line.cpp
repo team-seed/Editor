@@ -186,15 +186,14 @@ void Line::setBeatLines(int time,int bpm,int beat)
         mItems.clear();
         emit postItemRemoved();
     }
+
     //Add new Line (time/(60/bpm*1000))
     int count = ceil( time/((double)60/bpm*1000) );
-
     double spacing = (double)60/bpm*1000;
     double height = count * spacing;
 
-    //qDebug()<<"Count: "<<count<<"Total Height: "<<height;
     for(int i=0;i<count;i++){
-        if((i+1)%beat==0){
+        if((i-1)%beat==0){
             appendItem((int)count,bpm,10);
         }
         else

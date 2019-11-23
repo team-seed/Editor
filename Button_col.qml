@@ -6,9 +6,10 @@ Column {
     id: button_column
     spacing: 10
     width: media_input_button.width
-    property variant all_chart: {"BMP_RANGE" :0 ,"SECTION": part}
+    property variant all_chart: {"BPM_RANGE": 0 ,"SECTION": part}
     property string str_part: ""
     property variant temp:[]
+
     //Open Chart
     Button{
         anchors.horizontalCenter: parent.horizontalCenter
@@ -231,7 +232,9 @@ Column {
 
                                 select_part_content.append({"text":"PART"+(current_part+1)})
                                 part_select.currentIndex=current_part
+
                                 line.setBeatLines(player.time,bpm,beat);
+
                                 add_window.close()
                             }
                         }
