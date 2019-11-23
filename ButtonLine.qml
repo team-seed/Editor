@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.12
 import QtQuick.Shapes 1.12
 
 RowLayout{
+    property int button_height: (60/bpm*1000)
     Button{
         id:b1
         height: 5
@@ -14,7 +15,7 @@ RowLayout{
         onClicked:  model.B1 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: (60/bpm*1000)
+            implicitHeight: button_height
             color: b1.checked ? "red" : "lightblue"
         }
         Text{
@@ -87,7 +88,7 @@ RowLayout{
         onClicked:  model.B2 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: (60/bpm*1000)
+            implicitHeight: button_height
             color: b2.checked ? "red" : "lightblue"
         }
     }
@@ -101,7 +102,7 @@ RowLayout{
         onClicked:  model.B3 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: (60/bpm*1000)
+            implicitHeight: button_height
             color: b3.checked ? "red" : "lightblue"
         }
     }
@@ -115,7 +116,7 @@ RowLayout{
         onClicked:  model.B4 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: (60/bpm*1000)
+            implicitHeight: button_height
             color: b4.checked ? "red" : "lightblue"
         }
     }
@@ -129,7 +130,7 @@ RowLayout{
         onClicked:  model.B5 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: (60/bpm*1000)
+            implicitHeight: button_height
             color: b5.checked ? "red" : "lightblue"
         }
     }
@@ -143,7 +144,7 @@ RowLayout{
         onClicked:  model.B6 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: (60/bpm*1000)
+            implicitHeight: button_height
             color: b6.checked ? "red" : "lightblue"
         }
     }
@@ -157,7 +158,7 @@ RowLayout{
         onClicked:  model.B7 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: (60/bpm*1000)
+            implicitHeight: button_height
             color: b7.checked ? "red" : "lightblue"
         }
     }
@@ -171,7 +172,7 @@ RowLayout{
         onClicked:  model.B8 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: (60/bpm*1000)
+            implicitHeight: button_height
             color: b8.checked ? "red" : "lightblue"
         }
     }
@@ -185,7 +186,7 @@ RowLayout{
         onClicked:  model.B9 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: (60/bpm*1000)
+            implicitHeight: button_height
             color: b9.checked ? "red" : "lightblue"
         }
     }
@@ -199,7 +200,7 @@ RowLayout{
         onClicked:  model.B10 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: (60/bpm*1000)
+            implicitHeight: button_height
             color: b10.checked ? "red" : "lightblue"
         }
     }
@@ -213,7 +214,7 @@ RowLayout{
         onClicked:  model.B11 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: (60/bpm*1000)
+            implicitHeight: button_height
             color: b11.checked ? "red" : "lightblue"
         }
     }
@@ -227,7 +228,7 @@ RowLayout{
         onClicked:  model.B12 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: (60/bpm*1000)
+            implicitHeight: button_height
             color: b12.checked ? "red" : "lightblue"
         }
     }
@@ -241,7 +242,7 @@ RowLayout{
         onClicked:  model.B13 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: (60/bpm*1000)
+            implicitHeight: button_height
             color: b13.checked ? "red" : "lightblue"
         }
     }
@@ -255,7 +256,7 @@ RowLayout{
         onClicked:  model.B14 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: (60/bpm*1000)
+            implicitHeight: button_height
             color: b14.checked ? "red" : "lightblue"
         }
     }
@@ -269,7 +270,7 @@ RowLayout{
         onClicked:  model.B15 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: (60/bpm*1000)
+            implicitHeight: button_height
             color: b15.checked ? "red" : "lightblue"
         }
     }
@@ -283,7 +284,7 @@ RowLayout{
         onClicked:  model.B16 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: (60/bpm*1000)
+            implicitHeight: button_height
             color: b16.checked ? "red" : "lightblue"
         }
     }

@@ -5,8 +5,10 @@ import QtQuick.Layouts 1.12
 
 Rectangle {
     id:lane_background
-    property int view_height: 0
-
+    //property int view_height: 0
+    property int contenty: player.time+10000
+    //比例 ㄏㄏ
+    property double billy: 1
     width:height*0.7
     height:background.height*0.95
     color: "gray"
@@ -30,6 +32,14 @@ Rectangle {
                 visible: true
             }
         }
+        /*
+        Keys.onPressed: {
+            if (event.key == Qt.Key_Control) {
+                console.log(contenty)
+                mouse.z = 1
+                mouse.focus=true
+            }
+        }*/
     }
 
     //left
@@ -94,17 +104,25 @@ Rectangle {
         anchors.bottomMargin: parent.height/5
     }
 /*
+    //scale lane size
     MouseArea{
-
-        anchors.fill: parent
+        id: mouse
+        anchors.fill: sv
+        z: -1
         onWheel: {
-            if (wheel.modifiers && Qt.ControlModifier) {
-                chart.height+=wheel.angleDelta.y / 120;
-                if(chart.height>song_slider.value)
-                    chart.height=song_slider.value
-                else if(chart.height<lane_background.height)
-                    chart.height=lane_background.height
+            if (wheel.modifiers){
+                if(wheel.angleDelta.y<0)
+                   lane_background.contenty*=0.95
+                if(wheel.angleDelta.y>0)
+                    lane_background.contenty*=1.05
             }
         }
-    }*/
+        Keys.onReleased: {
+             if (event.key == Qt.Key_Control){
+                mouse.z = -1
+                sv.focus=true
+             }
+        }
+    }
+*/
 }

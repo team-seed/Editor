@@ -37,6 +37,7 @@ Window {
 
     //Lane
     Lane{
+        id:lane
         anchors.horizontalCenter: background.horizontalCenter
         anchors.verticalCenter: background.verticalCenter
         anchors.horizontalCenterOffset: -45
