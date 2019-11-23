@@ -11,10 +11,12 @@ Rectangle {
     property double billy: 1
     width:height*0.7
     height:background.height*0.95
-
+    color: "gray"
+    //chart
     ScrollView{
         id:sv
         anchors.fill:parent
+        contentHeight: 30000
         clip:true
         focus: true
         focusPolicy: Qt.WheelFocus
@@ -29,6 +31,7 @@ Rectangle {
             }
             delegate:ButtonLine{
                 width:parent.width
+                visible: true
             }
         }
         /*
@@ -43,35 +46,35 @@ Rectangle {
 
     //left
     Rectangle{
-        color: "darkblue"
+        color: "whitesmoke"
         height: parent.height
         width: 5
         anchors.left: parent.left
     }
     //right
     Rectangle{
-        color: "darkblue"
+        color: "whitesmoke"
         height: parent.height
         width: 5
         anchors.right: parent.right
     }
     //top
     Rectangle{
-        color: "darkblue"
+        color: "whitesmoke"
         height: 5
         width: parent.width
         anchors.top:parent.top
     }
     //bottom
     Rectangle{
-        color: "darkblue"
+        color: "whitesmoke"
         height: 5
         width: parent.width
         anchors.bottom: parent.bottom
     }
     //line 1
     Rectangle{
-        color: "darkblue"
+        color: "whitesmoke"
         height: parent.height
         width: 5
         anchors.right: parent.right
@@ -79,7 +82,7 @@ Rectangle {
     }
     //line 2
     Rectangle{
-        color: "darkblue"
+        color: "whitesmoke"
         height: parent.height
         width: 5
         anchors.right: parent.right
@@ -87,7 +90,7 @@ Rectangle {
     }
     //line 3
     Rectangle{
-        color: "darkblue"
+        color: "whitesmoke"
         height: parent.height
         width: 5
         anchors.right: parent.right
@@ -95,8 +98,9 @@ Rectangle {
     }
     //judge line
     Rectangle{
-        color: "green"
-        height: 5
+        color: "yellow"
+        height: 15
+        opacity: 0.5
         width: parent.width
         anchors.bottom:parent.bottom
         anchors.bottomMargin: parent.height/5

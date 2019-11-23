@@ -25,8 +25,27 @@ QVariant LineModel::data(const QModelIndex &index, int role) const
         return QVariant();
 
     const LineItem item = mLine->items().at(index.row());
+    switch (role) {
+        case typeRole:
+            return QVariant(item.type);
+        case gestureRole:
+            return QVariant(item.gesture);
+        case boldRole:
+            return QVariant(item.bold);
+        case directionRole:
+            return QVariant(item.direction);
+        case leftRole:
+            return QVariant(item.left);
+        case rightRole:
+            return QVariant(item.right);
+        case turingPointRole:
+            return QVariant(item.turningPoint);
+        case previousRole:
+            return QVariant(item.previous);
+        default:
+            return QVariant(item.checked[role%16]);
+    }
 
-    return QVariant(item.checked[role%16]);
 }
 
 bool LineModel::setData(const QModelIndex &index, const QVariant &value, int role)
@@ -34,9 +53,15 @@ bool LineModel::setData(const QModelIndex &index, const QVariant &value, int rol
     if(!mLine)
         return false;
     LineItem item = mLine->items().at(index.row());
+    //qDebug()<<"index"<<index;
+    QModelIndex nIndex = index.siblingAtRow(0);
+    qDebug()<<"mItem.size "<<mLine->items().size();
+    QModelIndex Index = index.siblingAtRow(mLine->items().size()-1);
+    //qDebug()<<"nindex"<<nIndex;
     item.checked[role%16] = value.toBool();
     if (mLine->setItemAt(index.row(), item,role%16)) {
-        emit dataChanged(index, index, QVector<int>());
+
+        emit dataChanged(nIndex, Index, QVector<int>());
         return true;
     }
     return false;
@@ -57,6 +82,9 @@ QHash<int, QByteArray> LineModel::roleNames() const
     names[B5] = "B5";names[B6] = "B6";names[B7] = "B7";names[B8] = "B8";
     names[B9] = "B9";names[B10] = "B10";names[B11] = "B11";names[B12] = "B12";
     names[B13] = "B13";names[B14] = "B14";names[B15] = "B15";names[B16] = "B16";
+    names[typeRole] = "type";names[gestureRole] = "gesture";names[boldRole] = "bold";
+    names[directionRole] = "direction"; names[leftRole] = "left"; names[rightRole] =  "right";
+    names[turingPointRole] = "turningPoint"; names[previousRole] = "previous";
     return names;
 }
 
