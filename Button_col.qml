@@ -15,17 +15,20 @@ Column {
         id:chart_open
         text:"Open Chart"
         onClicked: {
-            openchart.open()
+            if(player.isready())
+                openchart.open()
         }
         FileDialog{
             id : openchart
             onAccepted:{
                 all_chart=fileIO.openchart(file)
-                //console.log(all_chart["SECTION"][0]["NOTES"])
                 if(all_chart.length===0)
                     console.log("Error")
                 else
                     line.loadNotes(all_chart["SECTION"][0]);
+                part=all_chart["SECTION"]
+                for(var i=0;i<part.length;i++)
+                    select_part_content.append({"text" : "PART"+(i+1)})
             }
         }
     }
@@ -36,12 +39,13 @@ Column {
         id:chart_save
         text:"Save Chart"
         onClicked: {
-            temp =line.noteOutput();
-            for(var i=0;i<temp.length;i++){
-                part[0]["NOTES"][i] = temp[i];
+            if(player.isready()){
+                temp =line.noteOutput();
+                for(var i=0;i<temp.length;i++){
+                    part[0]["NOTES"][i] = temp[i];
+                }
+                savechart.open()
             }
-            console.log(all_chart)
-            savechart.open()
         }
         FileDialog{
             id : savechart
@@ -356,6 +360,7 @@ Column {
                     type_select_content.append({"text":"SWIPE"})
         }
     }
+
     //方向設定
     Text {
         text: "Direc Set"

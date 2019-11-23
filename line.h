@@ -43,7 +43,7 @@ public slots:
     void appendItem(int,int,int);
     int shapeLeft(int);
     int shapeRight(int);
-    int shapeHeight(int,int);
+    int shapeHeight(int,int,double);
 
 private:
     QVector <LineItem> mItems;
@@ -51,6 +51,7 @@ private:
     int mType;
     int mGesture;
     int mDirection;
+    int height;
 };
 
 #endif // LINE_H

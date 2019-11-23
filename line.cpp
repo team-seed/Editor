@@ -1,4 +1,5 @@
 #include "line.h"
+#include <math.h>
 #include <QDebug>
 #include <QJsonArray>
 
@@ -197,16 +198,18 @@ void Line::setBeatLines(int time,int bpm,int beat)
         emit postItemRemoved();
     }
     //Add new Line (time/(60/bpm*1000))
-    double count = time/((double)60/bpm*1000);
+    int count = ceil( time/((double)60/bpm*1000) );
+
     double spacing = (double)60/bpm*1000;
-    double height = (int)(count+1) * (int)spacing;
-    qDebug()<<"Count: "<<count+1<<"Total Height: "<<height;
-    for(int i=0;i<count+1;i++){
+    double height = count * spacing;
+
+    //qDebug()<<"Count: "<<count<<"Total Height: "<<height;
+    for(int i=0;i<count;i++){
         if((i+1)%beat==0){
-            appendItem((int)count+1,bpm,10);
+            appendItem((int)count,bpm,10);
         }
         else
-            appendItem((int)count+1,bpm,2);
+            appendItem((int)count,bpm,2);
     }
 }
 
@@ -268,7 +271,7 @@ int Line::shapeRight(int previous)
     if(previous==-1) return 0;
     return mItems[previous].right;
 }
-int Line::shapeHeight(int previous,int bpm)
+int Line::shapeHeight(int previous,int bpm,double spacing)
 {
     /*  由下往上畫
     if(turning==-1) return 0;
@@ -294,7 +297,6 @@ int Line::shapeHeight(int previous,int bpm)
              current = i;
    // qDebug()<<"current"<<current;
     if(current == -1) return 0;
-    double spacing = (double)60/bpm*1000;
     //qDebug()<<"spacing "<<spacing;
     int height = (previous-current)*(int)spacing;
    // qDebug()<<"pre "<<previous<<" current "<<current<<" height "<<height;
