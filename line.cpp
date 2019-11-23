@@ -242,6 +242,8 @@ bool Line::loadNotes(int time,QJsonObject input)
                         HoldcurrentLine = i;
                     }
                 }
+                if(currentLine==HoldPreviousLine)
+                    mItems[currentLine].turningPoint = HoldcurrentLine;
                 qDebug()<<"Holdcurrent: "<<HoldcurrentLine;
                 if(HoldcurrentLine==-1) return false;
                 if(NextHoldTime!=-1){
