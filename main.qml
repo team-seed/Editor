@@ -29,13 +29,19 @@ Window {
     property variant direc: [0,1,2,3]     //上下左右
     property variant current_direc: 0
 
+    //按鈕高度
+    property double button_height: (60/bpm*1000)
+    //按鈕數量
+    property int button_count : player.time/((60/bpm)*1000)
+    //譜面高度
+    property int view_height: button_height*button_count
+    //譜面最上方額外部分
+    property int  view_toppadding: player.time-view_height
+
     //back ground
     Item {
         id:background
         anchors.fill: parent
-    }
-    ButtonLine{
-        id:buttonline
     }
     //Lane
     Lane{

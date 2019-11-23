@@ -4,14 +4,7 @@ import QtQuick.Layouts 1.12
 import QtQuick.Shapes 1.12
 
 RowLayout{
-    //按鈕高度
-    property double button_height: (60/bpm*1000)
-    //按鈕數量
-    property double button_count : player.time/(60/bpm*1000)
-    //譜面高度
-    property int view_height: button_height*button_count
-    //譜面最上方額外部分
-    property int  view_toppadding: player.time-view_height
+
 
     Button{
         id:b1
