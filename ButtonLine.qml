@@ -17,6 +17,16 @@ RowLayout{
             implicitHeight: (60/bpm*1000)
             color: b1.checked ? "red" : "lightblue"
         }
+        Text{
+            text:model.direction===0?"↑":model.direction===1?"↓":model.direction===2?"←":"→"
+            visible: (model.type!==2)?false:true
+            color: "firebrick"
+            font.bold: true
+            style: Text.Outline; styleColor: "red"
+            font.pointSize: 50
+            x: (model.left+model.right-1)*lane_background.width/32
+            anchors.bottom: parent.top
+        }
         Shape{
             anchors.left: parent.left
             anchors.top: parent.top

@@ -3,6 +3,9 @@
 
 Line::Line(QObject *parent) : QObject(parent)
 {
+    mType = -1;
+    mGesture = -1;
+    mDirection = -1;
 }
 
 QVector<LineItem> Line::items() const
@@ -57,8 +60,24 @@ bool Line::setItemAt(int index, const LineItem &item,int role)   //設定mItems[
             flag = true;
     }
     if(flag==false) return false;
-    QString status="";
+    /*檢查是否有設定Gesture/Type/Direction*/
+    qDebug()<<"Ges"<<mGesture<<"Type"<<mType<<"Direction"<<mDirection;
+    if(mGesture==-1){
+        qDebug()<<"未設定Gesture";
+        return false;
+    }else{
+        if(mType==-1){
+            qDebug()<<"未設定Type";
+            return false;
+        }
+        else if(mType==2 && mDirection==-1){
+            qDebug()<<"未設定Direction";
+            return false;
+        }
+    }
+
     /*設定按下的位置如果是已選取的範圍則為取消該範圍*/
+    QString status="";
     if(role>=mItems[index].left && role<=mItems[index].right)
         status = "0000000000000000";
     else{   /*設定左右界*/
