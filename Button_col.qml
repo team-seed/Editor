@@ -8,7 +8,7 @@ Column {
     width: media_input_button.width
     property variant all_chart: {"BMP_RANGE" :0 ,"SECTION": part}
     property string str_part: ""
-
+    property variant temp:[]
     //Open Chart
     Button{
         anchors.horizontalCenter: parent.horizontalCenter
@@ -31,7 +31,11 @@ Column {
         id:chart_save
         text:"Save Chart"
         onClicked: {
-            part[0]["NOTES"] = line.noteOutput();
+            temp =line.noteOutput();
+            for(var i=0;i<temp.length;i++){
+                part[0]["NOTES"][i] = temp[i];
+            }
+            console.log(part[0]["NOTES"][0])
             savechart.open()
         }
         FileDialog{

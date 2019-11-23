@@ -14,14 +14,12 @@ Rectangle {
     ScrollView{
         id:sv
         anchors.fill:parent
-        contentHeight: 30000
         clip:true
         focus: true
         focusPolicy: Qt.WheelFocus
 
         ListView{
             id:chart_view
-            contentY: player.time+10000
             clip: true
             model: LineModel{
                 id:model
