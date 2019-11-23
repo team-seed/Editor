@@ -7,6 +7,7 @@ struct LineItem{        /*定義一個Line*/
     bool checked[16];
     int type;           /*(0,Click),(1,Swipe),(2,Hold)*/
     int turningPoint;   /*hold的下一個轉折點*/
+    int previous;       /*hold的上一個轉折點*/
     int left;
     int right;
     int gesture;
@@ -20,9 +21,9 @@ class Line : public QObject
     Q_OBJECT
 public:
     explicit Line(QObject *parent = nullptr);
-
     QVector<LineItem> items() const;
     bool setItemAt(int index,const LineItem &item,int role);
+    void resetItemAt(int index);
 signals:
     void preItemAppended();
     void postItemAppended();
@@ -37,9 +38,13 @@ public slots:
     void setGesture(int);
     void setDirection(int);
     void appendItem(int,int,int);
+    int shapeLeft(int);
+    int shapeRight(int);
+    int shapeHeight(int,int);
 
 private:
     QVector <LineItem> mItems;
+    QVector <int> holdList;
     int mType;
     int mGesture;
     int mDirection;

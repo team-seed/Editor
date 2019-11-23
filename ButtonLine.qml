@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
+import QtQuick.Shapes 1.12
 
 RowLayout{
     Button{
@@ -16,9 +17,34 @@ RowLayout{
             implicitHeight: (60/bpm*1000)
             color: b1.checked ? "red" : "lightblue"
         }
+        Shape{
+            anchors.left: parent.left
+            anchors.top: parent.top
+            visible: (model.type!==1)?false:true
+            ShapePath {
+               // strokeWidth: 0
+                strokeColor: "white"
+                fillGradient: LinearGradient {
+                    x1:  model.left*lane_background.width/16; y1: 0
+                    x2:(line.shapeRight(model.previous)+1)*lane_background.width/16 ; y2: line.shapeHeight(model.previous,bpm)
+                    GradientStop { position: 0; color: "lightsalmon" }
+                    GradientStop { position: 0.2; color: "tomato" }
+                    GradientStop { position: 0.4; color: "red" }
+                    GradientStop { position: 0.6; color: "crimson" }
+                    GradientStop { position: 1; color: "brown" }
+                }
+                //strokeStyle: ShapePath.DashLine
+                //dashPattern: [ 1, 4 ]
+                startX: model.left*lane_background.width/16; startY: 0
+                PathLine { x:(model.right+1)*lane_background.width/16; y: 0 }
+                PathLine { x:(line.shapeRight(model.previous)+1)*lane_background.width/16; y: line.shapeHeight(model.previous,bpm)}
+                PathLine { x:(line.shapeLeft(model.previous))*lane_background.width/16 ; y: line.shapeHeight(model.previous,bpm)}
+                PathLine { x:model.left*lane_background.width/16   ; y: 0}
+            }
+        }
         Rectangle{
             id:type
-            color: (model.type===0)?"black":(model.type===1)?"yellow":"purple"
+            color: (model.type===0)?"black":(model.type===1)?"yellow":(model.type===2)?"purple":"white"
             width: 15
             height: 15
             radius: 15
@@ -29,7 +55,7 @@ RowLayout{
         }
         Rectangle{
             id:gesture
-            color: (model.gesture===0)?"royalblue":"orange"
+            color: (model.gesture===0)?"royalblue":(model.gesture===1)?"orange":"white"
             width: 15
             height: 15
             radius: 15

@@ -13,6 +13,7 @@ Rectangle {
     ScrollView{
         id:sv
         anchors.fill:parent
+        contentHeight: 30000
         clip:true
         focus: true
         focusPolicy: Qt.WheelFocus
@@ -27,6 +28,7 @@ Rectangle {
             }
             delegate:ButtonLine{
                 width:parent.width
+                visible: true
             }
         }
     }

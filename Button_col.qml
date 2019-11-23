@@ -359,16 +359,17 @@ Column {
         }
         onActivated :{
             current_direc=direc_select.currentIndex
+            line.setDirection(direc_select.currentIndex)
         }
         Component.onCompleted: {
-            for(var i=0;i<type.length;i++){
+            for(var i=0;i<direc.length;i++){
                 if(i==0)
                     direc_select_content.append({"text":"Up"})
                 else if(i==1)
                     direc_select_content.append({"text":"Down"})
                 else if(i==2)
                     direc_select_content.append({"text":"Left"})
-                else
+                else if(i==3)
                     direc_select_content.append({"text":"Right"})
             }
         }
