@@ -138,6 +138,7 @@ Column {
                         }
 
                         TextInput{
+                            text: "60"
                             id: bpm_input
                             selectByMouse : true
                             selectionColor : "gray"
@@ -159,6 +160,7 @@ Column {
                             onClicked: offset_input.focus = true
                         }
                         TextInput{
+                            text:"0"
                             id: offset_input
                             selectByMouse : true
                             selectionColor : "gray"
@@ -182,6 +184,7 @@ Column {
                         }
 
                         TextInput{
+                            text: "4"
                             id: beat_input
                             selectByMouse : true
                             selectionColor : "gray"
