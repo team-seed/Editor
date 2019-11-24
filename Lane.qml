@@ -35,13 +35,10 @@ Rectangle {
                 width:parent.width
                 visible: true
             }
-            onContentYChanged:{/*
-                if(contentY-chart_center>0)
-                    song_slider.value = contentY-chart_center
-                else if(contentY-chart_center<0)
-                    song_slider.value = chart_center-contentY*/
-                song_slider.value= ((chart_center+view_height/2)-contentY)/billy
-                //console.log(chart_view.contentY)
+            onContentYChanged:{
+                if ( (chart_center+view_height/2)-contentY > 0 &&
+                        contentY >= (chart_center-view_height/2) )
+                    song_slider.value= ((chart_center+view_height/2)-contentY)/billy
             }
             Rectangle{
                 id: big_pane
@@ -56,9 +53,7 @@ Rectangle {
                 }
             }
         }
-
-
-
+/*縮放用
         Keys.onPressed: {
             if (event.key == Qt.Key_Control) {
                 console.log("!")
@@ -66,7 +61,7 @@ Rectangle {
                 mouse.focus=true
             }
         }
-
+*/
     }
 
     //left
@@ -131,15 +126,7 @@ Rectangle {
         anchors.bottomMargin: parent.height/5
         Component.onCompleted: chart_bottom_padding=height
     }
-
-    Button{
-        onClicked: {
-            console.log(parent.height)
-            console.log(view_height)
-            console.log(chart_view.contentY)
-        }
-    }
-
+/*
     //scale lane size
     MouseArea{
         id: mouse
@@ -148,24 +135,15 @@ Rectangle {
         onWheel: {
             chart_center=chart_center
             contenty=contenty
+            view_height=view_height
+
             if (wheel.modifiers){
-                if(wheel.angleDelta.y<0){
-                   button_height*=0.95
-                   if(chart_view.contentY-chart_center>0)
-                       chart_view.contentY=chart_center+(chart_view.contentY-chart_center)*0.95
-                   else if(chart_view.contentY-chart_center<0)
-                       chart_view.contentY=chart_center-(chart_center-chart_view.contentY)*0.95
-                   view_height*= 0.95
-                   billy*=0.95
+
+                if(wheel.angleDelta.y < 0){
+
                 }
-                if(wheel.angleDelta.y>0){
-                    button_height*=1.05
-                    if(chart_view.contentY-chart_center>0)
-                        chart_view.contentY=(chart_view.contentY-chart_center)*1.05
-                    else if(chart_view.contentY-chart_center<0)
-                        chart_view.contentY=(chart_center-chart_view.contentY)*1.05
-                    view_height*= 1.05
-                    billy*=1.05
+                else if(wheel.angleDelta.y > 0){
+
                 }
             }
         }
@@ -176,5 +154,33 @@ Rectangle {
              }
         }
     }
-
+    */
 }
+/*縮放用
+                if(wheel.angleDelta.y<0){
+                   billy*=0.95
+                   button_height*=0.95
+                   if(chart_view.contentY-chart_center>0){
+
+                       console.log("cal: "+ (chart_center+(chart_view.contentY-chart_center)*0.95))
+                       chart_view.contentY = chart_center+(chart_view.contentY-chart_center)*0.95
+                       console.log("Y after: "+chart_view.contentY)
+                       console.log("")
+
+                   }
+                   else if(chart_view.contentY-chart_center<0)
+                       chart_view.contentY=chart_center-(chart_center-chart_view.contentY)*0.95
+                   view_height*= 0.95
+
+                }
+
+                if(wheel.angleDelta.y>0){
+                    button_height*=1.05
+                    if(chart_view.contentY-chart_center>0)
+                        chart_view.contentY=(chart_view.contentY-chart_center)*1.05
+                    else if(chart_view.contentY-chart_center<0)
+                        chart_view.contentY=(chart_center-chart_view.contentY)*1.05
+                    view_height*= 1.05
+                    billy*=1.05
+                }
+*/
