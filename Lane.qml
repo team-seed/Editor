@@ -12,7 +12,7 @@ Rectangle {
     property double billy: 1
     width:height*0.7
     height:background.height*0.95
-    color: "gray"
+    color: "transparent"
 
     //chart
     ScrollView{
@@ -21,6 +21,7 @@ Rectangle {
         clip:true
         focus: true
         focusPolicy: Qt.WheelFocus
+
 
         ListView{
             id:chart_view
@@ -42,7 +43,21 @@ Rectangle {
                 song_slider.value= ((chart_center+view_height/2)-contentY)/billy
                 //console.log(chart_view.contentY)
             }
+            Rectangle{
+                id: big_pane
+                anchors.fill: chart_view
+                z:mode
+                color: "steelblue"
+                MouseArea{
+                    anchors.fill:parent
+                    onClicked: {
+                        console.log("Disable Button Line");
+                    }
+                }
+            }
         }
+
+
 
         Keys.onPressed: {
             if (event.key == Qt.Key_Control) {

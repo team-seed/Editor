@@ -44,6 +44,12 @@ QVariant LineModel::data(const QModelIndex &index, int role) const
             return QVariant(item.previous);
         case buttonHeightRole:
             return QVariant(item.buttonHeight);
+        case indexRole:
+            return QVariant(item.beat_index);
+        case colorRole:
+            return QVariant(item.color);
+        case delRole:
+            return QVariant(item.deletable);
         default:
             return QVariant(item.checked[role%16]);
     }
@@ -57,15 +63,21 @@ bool LineModel::setData(const QModelIndex &index, const QVariant &value, int rol
     LineItem item = mLine->items().at(index.row());
     //qDebug()<<"index"<<index;
     QModelIndex nIndex = index.siblingAtRow(0);
-    qDebug()<<"mItem.size "<<mLine->items().size();
+    //qDebug()<<"mItem.size "<<mLine->items().size();
     QModelIndex Index = index.siblingAtRow(mLine->items().size()-1);
     //qDebug()<<"nindex"<<nIndex;
     item.checked[role%16] = value.toBool();
-    if (mLine->setItemAt(index.row(), item,role%16)) {
-
+    qDebug()<<"role: "<<role;
+    if(role==refreshRole){
+        qDebug()<<"index: "<<index;
         emit dataChanged(nIndex, Index, QVector<int>());
         return true;
     }
+    if (mLine->setItemAt(index.row(), item,role%16)) {
+        emit dataChanged(nIndex, Index, QVector<int>());
+        return true;
+    }
+
     return false;
 }
 
@@ -87,7 +99,9 @@ QHash<int, QByteArray> LineModel::roleNames() const
     names[typeRole] = "type";names[gestureRole] = "gesture";names[boldRole] = "bold";
     names[directionRole] = "direction"; names[leftRole] = "left"; names[rightRole] =  "right";
     names[turingPointRole] = "turningPoint"; names[previousRole] = "previous";
-    names[buttonHeightRole] = "button_height";
+    names[buttonHeightRole] = "button_height";names[indexRole] = "index";
+    names[refreshRole] = "refresh";names[colorRole] = "color";
+    names[delRole] = "deletable";
     return names;
 }
 
@@ -107,15 +121,15 @@ void LineModel::setMline(Line *mline)
     mLine = mline;
 
     if(mLine){
-        connect(mLine,&Line::preItemAppended,this,[=](){
-            const int index = mLine->items().size();
+        connect(mLine,&Line::preItemAppended,this,[=](int index){
+            //const int index = mLine->items().size();
             beginInsertRows(QModelIndex(),index,index);
         });
         connect(mLine,&Line::postItemAppended,this,[=](){
            endInsertRows();
         });
-        connect(mLine,&Line::preItemRemoved,this,[=](int size){
-           beginRemoveRows(QModelIndex(),0,size);
+        connect(mLine,&Line::preItemRemoved,this,[=](int begin,int end){
+           beginRemoveRows(QModelIndex(),begin,end);
         });
         connect(mLine,&Line::postItemRemoved,this,[=](){
            endRemoveRows();
@@ -124,3 +138,4 @@ void LineModel::setMline(Line *mline)
 
     endResetModel();
 }
+

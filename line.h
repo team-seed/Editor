@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QVector>
 #include <QJsonObject>
+#include <QColor>
 
 struct LineItem{        /*定義一個Line*/
     bool checked[16];
@@ -16,7 +17,10 @@ struct LineItem{        /*定義一個Line*/
     int time;
     int bold;
     int direction;
-    double buttonHeight;
+    int buttonHeight;
+    int beat_index;
+    bool deletable;     // 1/2 ,1/4 beat線等等
+    QString color;
 };
 
 class Line : public QObject
@@ -28,23 +32,26 @@ public:
     bool setItemAt(int index,const LineItem &item,int role);
     void resetItemAt(int index);
 signals:
-    void preItemAppended();
+    void preItemAppended(int index);
     void postItemAppended();
 
-    void preItemRemoved(int size);
+    void preItemRemoved(int begin,int end);
     void postItemRemoved();
 
 public slots:
+    bool deletable(int);
     bool loadNotes(int,QJsonObject );
     QVector<QString> noteOutput();
     void setBeatLines(int ,int,int,int);
     void setType(int);
     void setGesture(int);
     void setDirection(int);
-    void appendItem(int,int,int,double);
+    void appendItem(int,int,int,QString,bool,int);
+    void sliceAt(int,int);
     int shapeLeft(int);
     int shapeRight(int);
-    int shapeHeight(int,int,double);
+    int shapeHeight(int,int,int);
+    bool removeLineAt(int);
 
 private:
     QVector <LineItem> mItems;

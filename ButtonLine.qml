@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Shapes 1.12
+import QtQuick.Controls.Styles 1.4
 
 RowLayout{
     Button{
@@ -12,10 +13,11 @@ RowLayout{
         checkable: true
         checked: model.B1
         onClicked:  model.B1 = checked
+        //style:ButtonStyle
         background:Rectangle{
             height: model.bold
             implicitHeight: model.button_height
-            color: b1.checked ? "red" : "lightblue"
+            color: b1.checked ? "red" : "transparent"//model.color
         }
         Text{
             text:model.direction===0?"↑":model.direction===1?"↓":model.direction===2?"←":"→"
@@ -52,6 +54,55 @@ RowLayout{
                 PathLine { x:model.left*lane_background.width/16   ; y: 0}
             }
         }
+        Button{
+            id:slicer_2
+            width: 15
+            height: 8
+            anchors.left: parent.left
+            anchors.leftMargin: 10
+            anchors.top: parent.verticalCenter
+            anchors.topMargin: -10
+            onClicked: {
+                model.refresh = line.sliceAt(model.index,2)        //把index這條Beat切成2等分
+            }
+            background:Rectangle{
+                color: "plum"
+            }
+        }
+        Button{
+            id:slicer_3
+            width: 15
+            height: 8
+            anchors.left: parent.left
+            anchors.leftMargin: 10
+            anchors.top: parent.verticalCenter
+            anchors.topMargin: 10
+            onClicked: {
+                model.refresh = line.sliceAt(model.index,3)        //把index這條Beat切成3等分
+            }
+            background:Rectangle{
+                color: "palegreen"
+            }
+        }
+        Button{
+            id:deleter
+            width: 15
+            height: 15
+            anchors.left: parent.left
+            anchors.leftMargin: 10
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 5
+            visible: line.deletable(model.index+1)
+            onClicked: {
+                model.refresh = line.removeLineAt(model.index+1)      //刪掉index+1這條線
+            }
+            background: Text{
+                text: "✖"
+                font.pointSize: 10
+                color: "red"
+            }
+        }
+        /*
         Rectangle{
             id:type
             color: (model.type===0)?"black":(model.type===1)?"yellow":(model.type===2)?"purple":"white"
@@ -73,7 +124,7 @@ RowLayout{
             anchors.leftMargin: 30
             anchors.top: parent.top
             anchors.topMargin: 10
-        }
+        }*/
     }
     Button{
         id:b2
@@ -87,7 +138,7 @@ RowLayout{
         background:Rectangle{
             height: model.bold
             implicitHeight: model.button_height
-            color: b2.checked ? "red" : "lightblue"
+            color: b2.checked ? "red" : model.color
         }
     }
     Button{
@@ -101,7 +152,7 @@ RowLayout{
         background:Rectangle{
             height: model.bold
             implicitHeight: model.button_height
-            color: b3.checked ? "red" : "lightblue"
+            color: b3.checked ? "red" : model.color
         }
     }
     Button{
@@ -115,7 +166,7 @@ RowLayout{
         background:Rectangle{
             height: model.bold
             implicitHeight: model.button_height
-            color: b4.checked ? "red" : "lightblue"
+            color: b4.checked ? "red" : model.color
         }
     }
     Button{
@@ -129,7 +180,7 @@ RowLayout{
         background:Rectangle{
             height: model.bold
             implicitHeight: model.button_height
-            color: b5.checked ? "red" : "lightblue"
+            color: b5.checked ? "red" : model.color
         }
     }
     Button{
@@ -143,7 +194,7 @@ RowLayout{
         background:Rectangle{
             height: model.bold
             implicitHeight: model.button_height
-            color: b6.checked ? "red" : "lightblue"
+            color: b6.checked ? "red" : model.color
         }
     }
     Button{
@@ -157,7 +208,7 @@ RowLayout{
         background:Rectangle{
             height: model.bold
             implicitHeight: model.button_height
-            color: b7.checked ? "red" : "lightblue"
+            color: b7.checked ? "red" : model.color
         }
     }
     Button{
@@ -171,7 +222,7 @@ RowLayout{
         background:Rectangle{
             height: model.bold
             implicitHeight: model.button_height
-            color: b8.checked ? "red" : "lightblue"
+            color: b8.checked ? "red" : model.color
         }
     }
     Button{
@@ -185,7 +236,7 @@ RowLayout{
         background:Rectangle{
             height: model.bold
             implicitHeight: model.button_height
-            color: b9.checked ? "red" : "lightblue"
+            color: b9.checked ? "red" : model.color
         }
     }
     Button{
@@ -199,7 +250,7 @@ RowLayout{
         background:Rectangle{
             height: model.bold
             implicitHeight: model.button_height
-            color: b10.checked ? "red" : "lightblue"
+            color: b10.checked ? "red" : model.color
         }
     }
     Button{
@@ -213,7 +264,7 @@ RowLayout{
         background:Rectangle{
             height: model.bold
             implicitHeight: model.button_height
-            color: b11.checked ? "red" : "lightblue"
+            color: b11.checked ? "red" : model.color
         }
     }
     Button{
@@ -227,7 +278,7 @@ RowLayout{
         background:Rectangle{
             height: model.bold
             implicitHeight: model.button_height
-            color: b12.checked ? "red" : "lightblue"
+            color: b12.checked ? "red" : model.color
         }
     }
     Button{
@@ -241,7 +292,7 @@ RowLayout{
         background:Rectangle{
             height: model.bold
             implicitHeight: model.button_height
-            color: b13.checked ? "red" : "lightblue"
+            color: b13.checked ? "red" : model.color
         }
     }
     Button{
@@ -255,7 +306,7 @@ RowLayout{
         background:Rectangle{
             height: model.bold
             implicitHeight: model.button_height
-            color: b14.checked ? "red" : "lightblue"
+            color: b14.checked ? "red" : model.color
         }
     }
     Button{
@@ -269,7 +320,7 @@ RowLayout{
         background:Rectangle{
             height: model.bold
             implicitHeight: model.button_height
-            color: b15.checked ? "red" : "lightblue"
+            color: b15.checked ? "red" : model.color
         }
     }
     Button{
@@ -283,7 +334,7 @@ RowLayout{
         background:Rectangle{
             height: model.bold
             implicitHeight: model.button_height
-            color: b16.checked ? "red" : "lightblue"
+            color: b16.checked ? "red" : model.color
         }
     }
 }

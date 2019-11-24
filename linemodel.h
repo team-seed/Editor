@@ -18,7 +18,8 @@ public:
         typeRole,gestureRole,boldRole,
         directionRole,leftRole,rightRole,
         turingPointRole,previousRole,
-        buttonHeightRole
+        buttonHeightRole,indexRole,
+        refreshRole,colorRole,delRole
     };
     // Basic functionality:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -34,6 +35,7 @@ public:
     virtual QHash<int, QByteArray> roleNames() const override;
     Line *mline() const;
     void setMline(Line *mline);
+
 private:
     Line *mLine;
 };
