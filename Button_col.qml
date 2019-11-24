@@ -57,9 +57,8 @@ Column {
             id : savechart
             fileMode: FileDialog.SaveFile
             onAccepted:{
-                if(current_part != -1)
-                    if(!fileIO.savechart(file,all_chart))
-                        console.log("save fail")
+                if(!fileIO.savechart(file,all_chart))
+                    console.log("save fail")
             }
         }
     }

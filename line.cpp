@@ -184,7 +184,7 @@ bool Line::loadNotes(int time,QJsonObject input)
 {
 
     int bpm = input.value("BPM").toInt();
-    int beat = input.value("BEATS").toInt();
+    int beat = input.value("BEAT").toInt();
     int offset = input.value("OFFSET").toInt();
     qDebug()<<"time: "<<time<<"beat: "<<beat<<"bpm: "<<bpm
            <<"offset: "<<offset;
