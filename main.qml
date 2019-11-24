@@ -39,7 +39,7 @@ Window {
     property int  chart_top_padding: view_height-player.time
     //最下面墊高
     property int  chart_bottom_padding: 0
-    //縮放中心點 不能變
+    //縮放中心點
     property double chart_center: view_height/2
 
     //back ground

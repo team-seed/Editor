@@ -53,10 +53,10 @@ Slider {
         }
     }
 
-    //播完歸零
     onValueChanged: {
-        //lane.contenty=view_height-(song_slider.value*lane.billy)
-        //console.log(lane.contenty)
+        //譜面連動
+        lane.contenty=chart_center+(view_height/2)-(song_slider.value*lane.billy)
+        //
         if(player.position==player.time){
             player.pause()
             play_state = false
