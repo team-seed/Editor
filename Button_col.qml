@@ -6,7 +6,7 @@ Column {
     id: button_column
     spacing: 10
     width: media_input_button.width
-    property variant all_chart: {"BPM_RANGE": 0 ,"SECTION": part}
+    property variant all_chart: {"BPM_RANGE" :0 ,"SECTION": part}
     property string str_part: ""
     property variant temp:[]
 
@@ -23,6 +23,12 @@ Column {
             id : openchart
             onAccepted:{
                 all_chart=fileIO.openchart(file)
+                if(all_chart.length===0)
+                    console.log("Error")
+                else{
+                    if(!line.loadNotes(player.time,all_chart["SECTION"][0]))
+                        console.log("歌曲不符合")
+                }
                 part=all_chart["SECTION"]
                 for(var i=0;i<part.length;i++)
                     select_part_content.append({"text" : "PART"+(i+1)})
@@ -38,9 +44,12 @@ Column {
         onClicked: {
             if(player.isready()){
                 temp =line.noteOutput();
+                for(var i=0;i<part.length;i++)
+                    part[i]["NOTES"] = [];
                 for(var i=0;i<temp.length;i++){
                     part[0]["NOTES"][i] = temp[i];
                 }
+                all_chart["SECTION"] = part;
                 savechart.open()
             }
         }
@@ -232,9 +241,7 @@ Column {
 
                                 select_part_content.append({"text":"PART"+(current_part+1)})
                                 part_select.currentIndex=current_part
-
-                                line.setBeatLines(player.time,bpm,beat);
-
+                                line.setBeatLines(player.time,bpm,beat,offset);
                                 add_window.close()
                             }
                         }

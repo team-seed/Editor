@@ -51,7 +51,6 @@ public slots:
         }
 
         file.write(data);
-
         file.close();
         return 1;
     }

@@ -14,7 +14,7 @@ RowLayout{
         onClicked:  model.B1 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: button_height
+            implicitHeight: model.button_height
             color: b1.checked ? "red" : "lightblue"
         }
         Text{
@@ -36,7 +36,7 @@ RowLayout{
                 strokeColor: "white"
                 fillGradient: LinearGradient {
                     x1:  model.left*lane_background.width/16; y1: 0
-                    x2:(line.shapeRight(model.previous)+1)*lane_background.width/16 ; y2: line.shapeHeight(model.previous,bpm,button_height)
+                    x2:(line.shapeRight(model.previous)+1)*lane_background.width/16 ; y2: line.shapeHeight(model.previous,bpm,model.button_height)
                     GradientStop { position: 0; color: "lightsalmon" }
                     GradientStop { position: 0.2; color: "tomato" }
                     GradientStop { position: 0.4; color: "red" }
@@ -47,8 +47,8 @@ RowLayout{
                 //dashPattern: [ 1, 4 ]
                 startX: model.left*lane_background.width/16; startY: 0
                 PathLine { x:(model.right+1)*lane_background.width/16; y: 0 }
-                PathLine { x:(line.shapeRight(model.previous)+1)*lane_background.width/16; y: line.shapeHeight(model.previous,bpm,button_height)}
-                PathLine { x:(line.shapeLeft(model.previous))*lane_background.width/16 ; y: line.shapeHeight(model.previous,bpm,button_height)}
+                PathLine { x:(line.shapeRight(model.previous)+1)*lane_background.width/16; y: line.shapeHeight(model.previous,bpm,model.button_height)}
+                PathLine { x:(line.shapeLeft(model.previous))*lane_background.width/16 ; y: line.shapeHeight(model.previous,bpm,model.button_height)}
                 PathLine { x:model.left*lane_background.width/16   ; y: 0}
             }
         }
@@ -86,7 +86,7 @@ RowLayout{
         onClicked:  model.B2 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: button_height
+            implicitHeight: model.button_height
             color: b2.checked ? "red" : "lightblue"
         }
     }
@@ -100,7 +100,7 @@ RowLayout{
         onClicked:  model.B3 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: button_height
+            implicitHeight: model.button_height
             color: b3.checked ? "red" : "lightblue"
         }
     }
@@ -114,7 +114,7 @@ RowLayout{
         onClicked:  model.B4 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: button_height
+            implicitHeight: model.button_height
             color: b4.checked ? "red" : "lightblue"
         }
     }
@@ -128,7 +128,7 @@ RowLayout{
         onClicked:  model.B5 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: button_height
+            implicitHeight: model.button_height
             color: b5.checked ? "red" : "lightblue"
         }
     }
@@ -142,7 +142,7 @@ RowLayout{
         onClicked:  model.B6 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: button_height
+            implicitHeight: model.button_height
             color: b6.checked ? "red" : "lightblue"
         }
     }
@@ -156,7 +156,7 @@ RowLayout{
         onClicked:  model.B7 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: button_height
+            implicitHeight: model.button_height
             color: b7.checked ? "red" : "lightblue"
         }
     }
@@ -170,7 +170,7 @@ RowLayout{
         onClicked:  model.B8 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: button_height
+            implicitHeight: model.button_height
             color: b8.checked ? "red" : "lightblue"
         }
     }
@@ -184,7 +184,7 @@ RowLayout{
         onClicked:  model.B9 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: button_height
+            implicitHeight: model.button_height
             color: b9.checked ? "red" : "lightblue"
         }
     }
@@ -198,7 +198,7 @@ RowLayout{
         onClicked:  model.B10 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: button_height
+            implicitHeight: model.button_height
             color: b10.checked ? "red" : "lightblue"
         }
     }
@@ -212,7 +212,7 @@ RowLayout{
         onClicked:  model.B11 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: button_height
+            implicitHeight: model.button_height
             color: b11.checked ? "red" : "lightblue"
         }
     }
@@ -226,7 +226,7 @@ RowLayout{
         onClicked:  model.B12 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: button_height
+            implicitHeight: model.button_height
             color: b12.checked ? "red" : "lightblue"
         }
     }
@@ -240,7 +240,7 @@ RowLayout{
         onClicked:  model.B13 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: button_height
+            implicitHeight: model.button_height
             color: b13.checked ? "red" : "lightblue"
         }
     }
@@ -254,7 +254,7 @@ RowLayout{
         onClicked:  model.B14 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: button_height
+            implicitHeight: model.button_height
             color: b14.checked ? "red" : "lightblue"
         }
     }
@@ -268,7 +268,7 @@ RowLayout{
         onClicked:  model.B15 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: button_height
+            implicitHeight: model.button_height
             color: b15.checked ? "red" : "lightblue"
         }
     }
@@ -282,7 +282,7 @@ RowLayout{
         onClicked:  model.B16 = checked
         background:Rectangle{
             height: model.bold
-            implicitHeight: button_height
+            implicitHeight: model.button_height
             color: b16.checked ? "red" : "lightblue"
         }
     }
