@@ -408,6 +408,10 @@ Column {
     TextArea{
         id:detail
         font.pixelSize: 20
-        text:""
+        text:"Part : "+(current_part+1)+"\n"+
+             "BPM : "+part[current_part]["BPM"]+"\n"+
+             "OFFSET : "+part[current_part]["OFFSET"]+"\n"+
+             "BEAT : "+part[current_part]["BEAT"]
+
     }
 }
