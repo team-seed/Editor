@@ -229,10 +229,7 @@ Column {
 
                                 current_part=part.length
                                 part[part.length]={"BPM":bpm,"OFFSET":offset,"BEATS":beat,"NOTES":[],}
-
-                                detail.text=("Part : "+(current_part+1)+"\n"+
-                                       　    "BPM : "+part[current_part]["BPM"]+"\n"+
-                                             "OFFSET : "+part[current_part]["OFFSET"])
+                                detail.setdetail()
 
                                 bpm_input.text=""
                                 offset_input.text=""
@@ -308,9 +305,7 @@ Column {
         }
         onActivated :{
             current_part=currentIndex
-            detail.text=("Part : "+(current_part+1)+"\n"+
-                         "BPM : "+part[current_part]["BPM"]+"\n"+
-                         "OFFSET : "+part[current_part]["OFFSET"])
+            detail.setdetail()
         }
     }
 
@@ -409,5 +404,12 @@ Column {
         id:detail
         font.pixelSize: 20
         text:""
+        function setdetail(){
+            detail.text="Part : "+(current_part+1)+"\n"+
+                    "BPM : "+part[current_part]["BPM"]+"\n"+
+                    "OFFSET : "+part[current_part]["OFFSET"]+"\n"+
+                    "BEAT : "+part[current_part]["BEAT"]
+        }
+
     }
 }
