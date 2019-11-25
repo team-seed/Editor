@@ -30,8 +30,12 @@ Column {
                         console.log("歌曲不符合")
                 }
                 part=all_chart["SECTION"]
+                bpm=part[0]["BPM"]
+                current_part=0
                 for(var i=0;i<part.length;i++)
                     select_part_content.append({"text" : "PART"+(i+1)})
+                part_select.currentIndex=0
+                detail.setdetail()
             }
         }
     }
