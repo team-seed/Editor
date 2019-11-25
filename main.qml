@@ -34,7 +34,7 @@ Window {
     //按鈕數量
     property int button_count :Math.ceil(player.time/((60/bpm)*1000))
     //譜面高度
-    property double view_height: (button_height*button_count)-lane.height
+    property double view_height: (button_height*button_count)-lane.height+(lane.height/5)
     //譜面最上方額外部分
     property int  chart_top_padding: view_height-player.time
     //最下面墊高

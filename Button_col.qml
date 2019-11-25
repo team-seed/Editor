@@ -228,7 +228,7 @@ Column {
                                 beat=beat_input.text
 
                                 current_part=part.length
-                                part[part.length]={"BPM":bpm,"OFFSET":offset,"BEAT":beat,"NOTES":[],}
+                                part[part.length]={"BPM":bpm,"OFFSET":offset,"BEATS":beat,"NOTES":[],}
 
                                 detail.text=("Part : "+(current_part+1)+"\n"+
                                        　    "BPM : "+part[current_part]["BPM"]+"\n"+

@@ -39,19 +39,24 @@ signals:
     void postItemRemoved();
 
 public slots:
-    bool deletable(int);
+    bool deletable(int);            // 判斷此條線是否為可刪除 (1/2, 1/4拍線)
+
     bool loadNotes(int,QJsonObject );
     QVector<QString> noteOutput();
+
     void setBeatLines(int ,int,int,int);
     void setType(int);
     void setGesture(int);
     void setDirection(int);
+
     void appendItem(int,int,int,QString,bool,int);
     void sliceAt(int,int);
+    bool removeLineAt(int);
+
     int shapeLeft(int);
     int shapeRight(int);
     int shapeHeight(int,int,int);
-    bool removeLineAt(int);
+
 
 private:
     QVector <LineItem> mItems;
@@ -60,7 +65,6 @@ private:
     int mType;
     int mGesture;
     int mDirection;
-    int height;
 };
 
 #endif // LINE_H

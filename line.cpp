@@ -66,7 +66,6 @@ bool Line::setItemAt(int index, const LineItem &item,int role)   //設定mItems[
     }
     if(flag==false) return false;
     /*檢查是否有設定Gesture/Type/Direction*/
-    //qDebug()<<"Ges"<<mGesture<<"Type"<<mType<<"Direction"<<mDirection;
     if(mGesture==-1){
       qDebug()<<"未設定Gesture";
         return false;
@@ -80,7 +79,6 @@ bool Line::setItemAt(int index, const LineItem &item,int role)   //設定mItems[
             return false;
         }
     }
-    qDebug()<<"ModelIndex: "<<index<<"BeatIndex: "<<mItems[index].beat_index;
     /*設定按下的位置如果是已選取的範圍則為取消該範圍*/
     QString status="";
     if(role>=mItems[index].left && role<=mItems[index].right)
@@ -106,10 +104,7 @@ bool Line::setItemAt(int index, const LineItem &item,int role)   //設定mItems[
     /*將left~right範圍內全部設為true*/
     for(int i=mItems[index].left;i<=mItems[index].right;i++){
         mItems[index].checked[i] = true;
-        status[i] ='1';
     }
-  //qDebug()<<"第"<<mItems.size()-index<<"條BeatLine, 時間: "<<item.time<<
-    //         "狀態 "<<status<<" left:"<<mItems[index].left<<" right "<<mItems[index].right;
     /*設定type gesture direction*/
     mItems[index].type = mType;
     mItems[index].gesture = mGesture;
@@ -117,24 +112,22 @@ bool Line::setItemAt(int index, const LineItem &item,int role)   //設定mItems[
     else mItems[index].direction = -1;
 
     /*設定 turningPoint */
-    if(mType==1){    //Hold Type
-        if(!holdList.contains(index)){
+    if(mType==1){           //Hold Type
+
+        if(!holdList.contains(index)){          // 若是第二次
             if(!holdList.empty()){
                 if(holdList.back()<index)
                     holdList.clear();
             }
             holdList.append(index);
             int previousLine = -1;
-           // qDebug()<<"Size: "<<holdList.size();
             if(holdList.size()>=2){
                 previousLine = holdList[holdList.size()-2];
                 mItems[previousLine].turningPoint = index;
                 mItems[index].previous = previousLine;
             }
-           // qDebug()<<"previous "<<previousLine;
 
         }
-        //qDebug()<<"index:"<<index<<" "
     }
     else{
         mItems[index].turningPoint = -1;
@@ -184,12 +177,13 @@ bool Line::loadNotes(int time,QJsonObject input)
 {
 
     int bpm = input.value("BPM").toInt();
-    int beat = input.value("BEAT").toInt();
+    int beat = input.value("BEATS").toInt();
     int offset = input.value("OFFSET").toInt();
   //qDebug()<<"time: "<<time<<"beat: "<<beat<<"bpm: "<<bpm
    //        <<"offset: "<<offset;
     setBeatLines(time,bpm,beat,offset);
 
+    //int beatspacing = qRound((double)60/bpm*1000);
   //qDebug()<<"Size: 1"<<mItems.size();
     QJsonArray notes = input.value("NOTES").toArray();
 
@@ -205,12 +199,30 @@ bool Line::loadNotes(int time,QJsonObject input)
         int right = temp[3].toInt()-1;   //right
         int type = temp[4].mid(0,1).toInt();   //type
       //qDebug()<<"temp[4]: "<<temp[4]<<" type: "<<type;
-        int currentLine = -1;
+        int currentLine = -1;           //  find currentLine
         for(int i=0;i<mItems.size();i++){
             if(mItems[i].time==time){
                 currentLine = i;
+                break;
             }
-        }
+        }/*
+        for(int i=0;i<mItems.size()-1;i++){
+            if(qRound((double)(mItems[i].time+mItems[i+1].time)/2)==time){   // 1/2線
+                sliceAt(i,2);
+                currentLine = i+1;
+                break;
+            }
+            else if(qRound((double)(mItems[i].time+mItems[i+1].time)*2/3)==time){   // 2/3線
+                    sliceAt(i,3);
+                    currentLine = i+1;
+                    break;
+            }
+            else if(qRound((double)(mItems[i].time+mItems[i+1].time)*2/3)==time){   // 1/3線
+                    sliceAt(i,3);
+                    currentLine = i+2;
+                    break;
+            }
+        }*/
         if(currentLine==-1) return false;
       //qDebug()<<"current: "<<currentLine;
         mItems[currentLine].gesture = gesture;
@@ -294,18 +306,22 @@ void Line::setBeatLines(int time,int bpm,int beat,int offset)
     //Add new Line (time/(60/bpm*1000))
     int count = ceil( time/((double)60/bpm*1000) );
     int spacing = qRound((double)60/bpm*1000);
-    //int height = count * spacing;
-    //qDebug()<<"Count: "<<count<<"Total Height: "<<height;
+    int height = count * spacing;
     int Linetime = (count-mItems.size())*spacing+moffset;
+    int supportline = 1;
+    if(offset!=0)   supportline+=1;
     for(int i=0;i<count;i++){
-        if(i%beat==0){
+        if((count-i+supportline-1)%beat==0){
            appendItem(Linetime,10,spacing,"royalblue",false,mItems.size());
          }
         else{
            appendItem(Linetime,5,spacing,"lightblue",false,mItems.size());
         }
+        Linetime = (count-mItems.size())*spacing+moffset;
     }
-    appendItem(Linetime,2,offset,"black",false,mItems.size());
+    if(offset!=0)
+        appendItem(Linetime,2,offset,"black",false,mItems.size());
+    appendItem(Linetime,2,167,"black",false,mItems.size());
 }
 
 void Line::setType(int type)
@@ -372,11 +388,12 @@ void Line::sliceAt(int index, int slice)
     int slicedHeight  = qRound((double)currentHeight/slice);
 
     int currentTime = mItems[index].time;
-    int slicedTime = currentTime-qRound((double)mItems[index].buttonHeight/slice);
+    int slicedTime = currentTime-qRound((double)currentHeight/slice);
 
     mItems[index].buttonHeight = slicedHeight;
     for(int i=1;i<slice;i++){
         appendItem(slicedTime,lineSize,slicedHeight,lineColor,true,index+i);
+        slicedTime -= qRound((double)currentHeight/slice);
     }
     for(int i=index+slice;i<mItems.size();i++){         //重設beat_index
         mItems[i].beat_index = i;

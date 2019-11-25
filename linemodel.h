@@ -19,7 +19,8 @@ public:
         directionRole,leftRole,rightRole,
         turingPointRole,previousRole,
         buttonHeightRole,indexRole,
-        refreshRole,colorRole,delRole
+        refreshRole,colorRole,delRole,
+        timeRole
     };
     // Basic functionality:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;

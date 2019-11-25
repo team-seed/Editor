@@ -17,7 +17,7 @@ RowLayout{
         background:Rectangle{
             height: model.bold
             implicitHeight: model.button_height
-            color: b1.checked ? "red" : "transparent"//model.color
+            color: b1.checked ? "red" : model.color
         }
         Text{
             text:model.direction===0?"↑":model.direction===1?"↓":model.direction===2?"←":"→"
@@ -102,6 +102,16 @@ RowLayout{
                 color: "red"
             }
         }
+
+
+        Text{
+            text:model.time
+            anchors.top: parent.top
+            anchors.topMargin: 10
+            anchors.left: parent.left
+            anchors.leftMargin: 10
+            font.pointSize: 20
+        }
         /*
         Rectangle{
             id:type
@@ -113,7 +123,8 @@ RowLayout{
             anchors.leftMargin: 10
             anchors.top: parent.top
             anchors.topMargin: 10
-        }
+        }*/
+        /*
         Rectangle{
             id:gesture
             color: (model.gesture===0)?"royalblue":(model.gesture===1)?"orange":"white"
