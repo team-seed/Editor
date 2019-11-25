@@ -114,14 +114,18 @@ bool Line::setItemAt(int index, const LineItem &item,int role)   //設定mItems[
 
     /*設定 turningPoint */
     if(mType==1){           //Hold Type
-        if(!holdList.contains(index)){          // 若是第二次
-            if(!holdList.empty()){
-                if(holdList.back()<index)
+        if(!holdList.contains(index)){          // 若是第一次才會加入HoldList
+            qDebug()<<"First: "<<index;
+
+            if(!holdList.empty()){              // 若是上一次最後Hold位置在這條線之後(不支援由上往下新增Hold)，則清空HoldList
+                if(holdList.back()<index){
                     holdList.clear();
+                    qDebug()<<"Clear: "<<index;
+                }
             }
             holdList.append(index);
             int previousLine = -1;
-            if(holdList.size()>=2){
+            if(holdList.size()>=2){         // 設定previousLine 前面至少要先有一條Line
                 previousLine = holdList[holdList.size()-2];
                 mItems[previousLine].turningPoint = index;
                 mItems[index].previous = previousLine;
@@ -133,7 +137,7 @@ bool Line::setItemAt(int index, const LineItem &item,int role)   //設定mItems[
         mItems[index].turningPoint = -1;
         holdList.clear();
     }
-    qDebug()<<"index "<<index<<" turning "<<mItems[index].turningPoint;
+    qDebug()<<"index "<<index<<" turning "<<mItems[index].turningPoint<<" previous "<<mItems[index].previous;
     return true;
 }
 
@@ -413,10 +417,10 @@ void Line::sliceAt(int index, int slice)
         mItems[i].beat_index = i;
     }
 
-    /* 在 index+slice-1 ~size間 的 turningPoint 和 previous 需要加上slice-1 */
+    /* 在 index+1~size間 的 turningPoint 和 index+slice-1~size間 previous 需要加上slice-1 */
 
     for(int i=0;i<mItems.size();i++){                   //重設turningPoint && previous
-        if(mItems[i].turningPoint>=(index+slice-1) && mItems[i].turningPoint<mItems.size()){
+        if(mItems[i].turningPoint>=(index+1) && mItems[i].turningPoint<mItems.size()){
             mItems[i].turningPoint += slice-1;
             qDebug()<<i<<" :Reset TP to "<<mItems[i].turningPoint;
         }
@@ -425,7 +429,20 @@ void Line::sliceAt(int index, int slice)
              qDebug()<<i<<" :Reset previous to "<<mItems[i].previous;
         }
     }
-
+    // 更新前
+    for(int i=0;i<holdList.size();i++){
+        qDebug()<<"Old"<<holdList[i];
+    }
+    //HoldList值更新
+    for(int i=0;i<holdList.size();i++){
+        if(holdList[i]>=index && holdList[i]<mItems.size()){
+            holdList[i] += slice-1;
+        }
+    }
+    //更新後
+    for(int i=0;i<holdList.size();i++){
+        qDebug()<<"New"<<holdList[i];
+    }
     // slice後
     for(int i=0;i<mItems.size();i++){
         if(mItems[i].turningPoint!=-1)  qDebug()<<"slice後: "<<i<<": tp = "<< mItems[i].turningPoint;
@@ -500,11 +517,17 @@ bool Line::removeLineAt(int index)
 
     for(int i=index;i<mItems.size();i++)
         mItems[i].beat_index = i;
+    // 重設turning , previous
     for(int i=0;i<mItems.size();i++){
         if(mItems[i].turningPoint>=index && mItems[i].turningPoint<mItems.size())
             mItems[i].turningPoint -= 1;
         if(mItems[i].previous>=index && mItems[i].previous<mItems.size())
             mItems[i].previous -= 1;
+    }
+    // 重設holdList
+    for(int i=0;i<holdList.size();i++){
+        if(holdList[i]>=index && holdList[i]<mItems.size())
+            holdList[i] -=1;
     }
     //qDebug()<<"New: "<<mItems[index].time;
     return true;

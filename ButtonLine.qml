@@ -127,7 +127,7 @@ RowLayout{
             anchors.topMargin: 10
             anchors.left: parent.left
             anchors.leftMargin: 10
-            font.pointSize: 8
+            font.pointSize: 20
         }
         /*
         Rectangle{
