@@ -54,6 +54,23 @@ RowLayout{
                 PathLine { x:model.left*lane_background.width/16   ; y: 0}
             }
         }
+        /*
+        Button{
+            id:refresh
+            width: 15
+            height: 8
+            anchors.left: parent.left
+            anchors.leftMargin: 20
+            anchors.top: parent.verticalCenter
+            anchors.topMargin: -10
+            onClicked: {
+                model.refresh = true
+                console.log("Model Type: ",model.type)
+            }
+            background:Rectangle{
+                color: "black"
+            }
+        }*/
         Button{
             id:slicer_2
             width: 15
@@ -105,12 +122,12 @@ RowLayout{
 
 
         Text{
-            text:model.time
+            text:model.time+','+model.left+','+model.right+','+model.turningPoint+','+model.previous+','+model.type
             anchors.top: parent.top
             anchors.topMargin: 10
             anchors.left: parent.left
             anchors.leftMargin: 10
-            font.pointSize: 20
+            font.pointSize: 8
         }
         /*
         Rectangle{

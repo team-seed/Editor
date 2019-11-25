@@ -60,8 +60,8 @@ QVariant LineModel::data(const QModelIndex &index, int role) const
 
 bool LineModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    if(!mLine)
-        return false;
+    //if(!mLine)
+     //   return false;
     LineItem item = mLine->items().at(index.row());
     //qDebug()<<"index"<<index;
     QModelIndex nIndex = index.siblingAtRow(0);
@@ -69,13 +69,14 @@ bool LineModel::setData(const QModelIndex &index, const QVariant &value, int rol
     QModelIndex Index = index.siblingAtRow(mLine->items().size()-1);
     //qDebug()<<"nindex"<<nIndex;
     item.checked[role%16] = value.toBool();
-    qDebug()<<"role: "<<role;
+    //qDebug()<<"role: "<<role;
     if(role==refreshRole){
-        qDebug()<<"index: "<<index;
+        qDebug()<<"index: "<<index<<"refresh from "<<nIndex<<" to "<<Index;
         emit dataChanged(nIndex, Index, QVector<int>());
         return true;
     }
     if (mLine->setItemAt(index.row(), item,role%16)) {
+        qDebug()<<"test";
         emit dataChanged(nIndex, Index, QVector<int>());
         return true;
     }

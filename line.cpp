@@ -79,6 +79,7 @@ bool Line::setItemAt(int index, const LineItem &item,int role)   //設定mItems[
             return false;
         }
     }
+    qDebug()<<"Set At : "<<index;
     /*設定按下的位置如果是已選取的範圍則為取消該範圍*/
     QString status="";
     if(role>=mItems[index].left && role<=mItems[index].right)
@@ -113,7 +114,6 @@ bool Line::setItemAt(int index, const LineItem &item,int role)   //設定mItems[
 
     /*設定 turningPoint */
     if(mType==1){           //Hold Type
-
         if(!holdList.contains(index)){          // 若是第二次
             if(!holdList.empty()){
                 if(holdList.back()<index)
@@ -133,27 +133,34 @@ bool Line::setItemAt(int index, const LineItem &item,int role)   //設定mItems[
         mItems[index].turningPoint = -1;
         holdList.clear();
     }
-   // qDebug()<<"index "<<index<<" turning "<<mItems[index].turningPoint;
+    qDebug()<<"index "<<index<<" turning "<<mItems[index].turningPoint;
     return true;
 }
 
 void Line::resetItemAt(int index)
 {
 
-  //qDebug()<<"Reset Item "<<index;
+  qDebug()<<"Reset Item "<<index<<" TP: "<<mItems[index].turningPoint;
 
     if(mItems[index].type==1){
         /*由下往上取消*/
-        while(mItems[index].turningPoint!=-1){
-          //qDebug()<<" turnPoint"<<mItems[index].turningPoint;
+        if(mItems[index].turningPoint!=-1){
+          qDebug()<<" turnPoint"<<mItems[index].turningPoint;
+          if(index == mItems[index].turningPoint){
+            qDebug()<<index<<": turningPoint 指向自己";
+            mItems[index].turningPoint = -1;
+          }else{
+            qDebug()<<"ResetFuck "<<index<<" TP: "<<mItems[index].turningPoint;
             resetItemAt(mItems[index].turningPoint);
+          }
         }
+
         /*取消指向自己的turningPoint*/
         int previous = mItems[index].previous;
         if(previous!=-1) mItems[previous].turningPoint = -1;
         mItems[index].previous = -1;
-       // qDebug()<<" previous"<<previous;
-       // qDebug()<<"Pop: "<<holdList.back();
+        qDebug()<<" previous"<<previous;
+        qDebug()<<"Pop: "<<holdList.back();
         int find = -1;
         for(int i=0;i<holdList.size();i++){
             if(holdList[i]==index)
@@ -171,6 +178,7 @@ void Line::resetItemAt(int index)
     mItems[index].type = -1;
     mItems[index].gesture = -1;
     mItems[index].direction = -1;
+    qDebug()<<"Reset"<<index<<"OK";
 }
 
 bool Line::loadNotes(int time,QJsonObject input)
@@ -383,6 +391,12 @@ void Line::sliceAt(int index, int slice)
     }else{
         return;
     }
+    // slice前
+    for(int i=0;i<mItems.size();i++){
+        if(mItems[i].turningPoint!=-1)  qDebug()<<"slice前: "<<i<<": tp = "<< mItems[i].turningPoint;
+        else if(mItems[i].previous!=-1)  qDebug()<<"slice前: "<<i<<": previous = "<< mItems[i].previous;
+    }
+
 
     int currentHeight = mItems[index].buttonHeight;
     int slicedHeight  = qRound((double)currentHeight/slice);
@@ -399,14 +413,23 @@ void Line::sliceAt(int index, int slice)
         mItems[i].beat_index = i;
     }
 
+    /* 在 index+slice-1 ~size間 的 turningPoint 和 previous 需要加上slice-1 */
+
     for(int i=0;i<mItems.size();i++){                   //重設turningPoint && previous
-        if(mItems[i].turningPoint>=index+1 && mItems[i].turningPoint<mItems.size())
-            mItems[i].turningPoint +=(slice-1);
-        else if(mItems[i].previous>=index+1 && mItems[i].previous<mItems.size())
-            mItems[i].previous +=(slice-1);
+        if(mItems[i].turningPoint>=(index+slice-1) && mItems[i].turningPoint<mItems.size()){
+            mItems[i].turningPoint += slice-1;
+            qDebug()<<i<<" :Reset TP to "<<mItems[i].turningPoint;
+        }
+        if(mItems[i].previous>=(index+slice-1) && mItems[i].previous<mItems.size()){
+            mItems[i].previous += slice-1;
+             qDebug()<<i<<" :Reset previous to "<<mItems[i].previous;
+        }
     }
+
+    // slice後
     for(int i=0;i<mItems.size();i++){
-        qDebug()<<"turn :"<<mItems[i].turningPoint<<"pre: "<<mItems[i].previous;
+        if(mItems[i].turningPoint!=-1)  qDebug()<<"slice後: "<<i<<": tp = "<< mItems[i].turningPoint;
+        else if(mItems[i].previous!=-1)  qDebug()<<"slice後: "<<i<<": previous = "<< mItems[i].previous;
     }
 }
 
@@ -485,6 +508,11 @@ bool Line::removeLineAt(int index)
     }
     //qDebug()<<"New: "<<mItems[index].time;
     return true;
+}
+
+void Line::holdClear()
+{
+    holdList.clear();
 }
 
 bool Line::deletable(int index){

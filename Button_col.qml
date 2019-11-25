@@ -391,11 +391,18 @@ Column {
             }
         }
     }
+    /*
     CheckBox{
         id:mode_switch
         text: "EditorMode"
         onCheckStateChanged: {
             mode = mode_switch.checked?1:-1
+        }
+    }*/
+    Button{
+        text:"Hold線完成"
+        onClicked: {
+            line.holdClear()
         }
     }
 

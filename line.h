@@ -52,6 +52,7 @@ public slots:
     void appendItem(int,int,int,QString,bool,int);
     void sliceAt(int,int);
     bool removeLineAt(int);
+    void holdClear();
 
     int shapeLeft(int);
     int shapeRight(int);
