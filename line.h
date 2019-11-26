@@ -45,7 +45,7 @@ public slots:
     bool loadNotes(int,QJsonObject );
     QVector<QString> noteOutput();
 
-    void setBeatLines(double ,int,int,int);
+    void setBeatLines(double ,double,int,int);
     void setType(int);
     void setGesture(int);
     void setDirection(int);
@@ -57,7 +57,7 @@ public slots:
 
     int shapeLeft(int);
     int shapeRight(int);
-    int shapeHeight(int,int,int);
+    int shapeHeight(int);
 
 
 private:

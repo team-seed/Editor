@@ -38,7 +38,7 @@ RowLayout{
                 strokeColor: "white"
                 fillGradient: LinearGradient {
                     x1:  model.left*lane_background.width/16; y1: 0
-                    x2:(line.shapeRight(model.previous)+1)*lane_background.width/16 ; y2: line.shapeHeight(model.previous,bpm,model.button_height)
+                    x2:(line.shapeRight(model.previous)+1)*lane_background.width/16 ; y2: line.shapeHeight(model.previous)
                     GradientStop { position: 0; color: "lightsalmon" }
                     GradientStop { position: 0.2; color: "tomato" }
                     GradientStop { position: 0.4; color: "red" }
@@ -49,8 +49,8 @@ RowLayout{
                 //dashPattern: [ 1, 4 ]
                 startX: model.left*lane_background.width/16; startY: 0
                 PathLine { x:(model.right+1)*lane_background.width/16; y: 0 }
-                PathLine { x:(line.shapeRight(model.previous)+1)*lane_background.width/16; y: line.shapeHeight(model.previous,bpm,model.button_height)}
-                PathLine { x:(line.shapeLeft(model.previous))*lane_background.width/16 ; y: line.shapeHeight(model.previous,bpm,model.button_height)}
+                PathLine { x:(line.shapeRight(model.previous)+1)*lane_background.width/16; y: line.shapeHeight(model.previous)}
+                PathLine { x:(line.shapeLeft(model.previous))*lane_background.width/16 ; y: line.shapeHeight(model.previous)}
                 PathLine { x:model.left*lane_background.width/16   ; y: 0}
             }
         }

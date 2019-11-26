@@ -310,7 +310,7 @@ bool Line::loadNotes(int time,QJsonObject input)
     return true;
 }
 
-void Line::setBeatLines(double time,int bpm,int beat,int offset)
+void Line::setBeatLines(double time,double bpm,int beat,int offset)
 {
     moffset = offset;
     //Remove old line
@@ -321,12 +321,15 @@ void Line::setBeatLines(double time,int bpm,int beat,int offset)
     }
 
     //Add new Line (time/(60/bpm*1000))
-    int count = ceil( time/((double)60/bpm*1000) );
-    double spacing = (double)60/bpm*1000;
-    int height = count * spacing;
+    int count = ceil( time/((double)60000/bpm) );
+
+    double spacing = (double)60000/bpm;
+
     double Linetime = (count-mItems.size())*spacing+moffset;
+
     int supportline = 1;
     if(offset!=0)   supportline+=1;
+
     for(int i=0;i<count;i++){
         if((count-i+supportline-1)%beat==0){
            appendItem(Linetime,10,qRound(spacing),"royalblue",false,mItems.size(),true);
@@ -479,40 +482,20 @@ int Line::shapeRight(int previous)
     if(previous==-1) return 0;
     return mItems[previous].right;
 }
-int Line::shapeHeight(int previous,int bpm,int spacing)
+int Line::shapeHeight(int previous)
 {
-    /*  由下往上畫
-    if(turning==-1) return 0;
-    int current = -1;
-
-    for(int i=0;i<mItems.size();i++)
-        if(mItems[i].turningPoint == turning)
-             current = i;
-    if(current == -1) return 0;
-    double spacing = (double)60/bpm*1000;
-    //qDebug()<<"spacing "<<spacing;
-    int height = (turning-current)*(int)spacing;
-  //qDebug()<<"turn "<<turning<<" current "<<current<<" height "<<height;
-    return height;
-    */
-   // qDebug()<<"pre"<<previous;
-
     if(previous==-1) return 0;
     int current = -1;
 
     for(int i=0;i<mItems.size();i++)
         if(mItems[i].previous == previous)
              current = i;
-   // qDebug()<<"current"<<current;
     if(current == -1) return 0;
-    //qDebug()<<"spacing "<<spacing;
-    int height = 0;//(previous-current)*spacing;
+    int height = 0;
     for(int i=current;i<previous;i++){
         height+=mItems[i].buttonHeight;
     }
-    qDebug()<<"pre "<<previous<<" current "<<current<<" height "<<height;
     return height;
-
 }
 
 bool Line::removeLineAt(int index)
