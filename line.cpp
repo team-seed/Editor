@@ -164,15 +164,18 @@ void Line::resetItemAt(int index)
         if(previous!=-1) mItems[previous].turningPoint = -1;
         mItems[index].previous = -1;
         qDebug()<<" previous"<<previous;
-        qDebug()<<"Pop: "<<holdList.back();
-        int find = -1;
-        for(int i=0;i<holdList.size();i++){
-            if(holdList[i]==index)
-                find = i;
-        }
-        if(find!=-1){
-            holdList.erase(holdList.begin()+find);
-           // qDebug()<<"Erase At: "<<find;
+
+        if(!holdList.empty()){
+            //qDebug()<<"Pop: "<<holdList.back();
+            int find = -1;
+            for(int i=0;i<holdList.size();i++){
+                if(holdList[i]==index)
+                    find = i;
+            }
+            if(find!=-1){
+                holdList.erase(holdList.begin()+find);
+               // qDebug()<<"Erase At: "<<find;
+            }
         }
     }
 
