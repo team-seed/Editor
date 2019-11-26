@@ -14,12 +14,13 @@ struct LineItem{        /*定義一個Line*/
     int left;
     int right;
     int gesture;
-    int time;
+    double time;
     int bold;
     int direction;
     int buttonHeight;
     int beat_index;
     bool deletable;     // 1/2 ,1/4 beat線等等
+    bool checkable;
     QString color;
 };
 
@@ -44,12 +45,12 @@ public slots:
     bool loadNotes(int,QJsonObject );
     QVector<QString> noteOutput();
 
-    void setBeatLines(int ,int,int,int);
+    void setBeatLines(double ,int,int,int);
     void setType(int);
     void setGesture(int);
     void setDirection(int);
 
-    void appendItem(int,int,int,QString,bool,int);
+    void appendItem(double,int,int,QString,bool,int,bool);
     void sliceAt(int,int);
     bool removeLineAt(int);
     void holdClear();

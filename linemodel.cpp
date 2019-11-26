@@ -52,6 +52,8 @@ QVariant LineModel::data(const QModelIndex &index, int role) const
             return QVariant(item.deletable);
         case timeRole:
             return QVariant(item.time);
+        case checkableRole:
+            return QVariant(item.checkable);
         default:
             return QVariant(item.checked[role%16]);
     }
@@ -105,6 +107,7 @@ QHash<int, QByteArray> LineModel::roleNames() const
     names[buttonHeightRole] = "button_height";names[indexRole] = "index";
     names[refreshRole] = "refresh";names[colorRole] = "color";
     names[delRole] = "deletable"; names[timeRole] = "time";
+    names[checkableRole] = "checkable";
     return names;
 }
 

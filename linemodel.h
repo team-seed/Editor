@@ -20,7 +20,7 @@ public:
         turingPointRole,previousRole,
         buttonHeightRole,indexRole,
         refreshRole,colorRole,delRole,
-        timeRole
+        timeRole,checkableRole
     };
     // Basic functionality:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;

@@ -10,7 +10,7 @@ RowLayout{
         height: 5
         Layout.fillWidth: true;
         antialiasing: true;
-        checkable: true
+        checkable: model.checkable
         checked: model.B1
         onClicked:  model.B1 = checked
         //style:ButtonStyle
@@ -75,6 +75,7 @@ RowLayout{
             id:slicer_2
             width: 15
             height: 8
+            visible: model.checkable
             anchors.left: parent.left
             anchors.leftMargin: 10
             anchors.top: parent.verticalCenter
@@ -90,6 +91,7 @@ RowLayout{
             id:slicer_3
             width: 15
             height: 8
+            visible: model.checkable
             anchors.left: parent.left
             anchors.leftMargin: 10
             anchors.top: parent.verticalCenter
@@ -128,6 +130,7 @@ RowLayout{
             anchors.left: parent.left
             anchors.leftMargin: 10
             font.pointSize: 20
+            visible: model.checkable
         }
         /*
         Rectangle{
@@ -160,7 +163,7 @@ RowLayout{
         Layout.fillWidth: true;
 
         antialiasing: true;
-        checkable: true
+        checkable: model.checkable
         checked: model.B2
         onClicked:  model.B2 = checked
         background:Rectangle{
@@ -173,7 +176,7 @@ RowLayout{
         id:b3
         height: 5
         Layout.fillWidth: true;
-        checkable: true
+        checkable: model.checkable
         antialiasing: true;
         checked: model.B3
         onClicked:  model.B3 = checked
@@ -188,7 +191,7 @@ RowLayout{
         height: 5
         Layout.fillWidth: true;
         antialiasing: true;
-        checkable: true
+        checkable: model.checkable
         checked: model.B4
         onClicked:  model.B4 = checked
         background:Rectangle{
@@ -202,7 +205,7 @@ RowLayout{
         height: 5
         Layout.fillWidth: true;
         antialiasing: true;
-        checkable: true
+        checkable: model.checkable
         checked: model.B5
         onClicked:  model.B5 = checked
         background:Rectangle{
@@ -216,7 +219,7 @@ RowLayout{
         height: 5
         Layout.fillWidth: true;
         antialiasing: true;
-        checkable: true
+        checkable: model.checkable
         checked: model.B6
         onClicked:  model.B6 = checked
         background:Rectangle{
@@ -230,7 +233,7 @@ RowLayout{
         height: 5
         Layout.fillWidth: true;
         antialiasing: true;
-        checkable: true
+        checkable: model.checkable
         checked: model.B7
         onClicked:  model.B7 = checked
         background:Rectangle{
@@ -244,7 +247,7 @@ RowLayout{
         height: 5
         Layout.fillWidth: true;
         antialiasing: true;
-        checkable: true
+        checkable: model.checkable
         checked: model.B8
         onClicked:  model.B8 = checked
         background:Rectangle{
@@ -258,7 +261,7 @@ RowLayout{
         height: 5
         Layout.fillWidth: true;
         antialiasing: true;
-        checkable: true
+        checkable: model.checkable
         checked: model.B9
         onClicked:  model.B9 = checked
         background:Rectangle{
@@ -272,7 +275,7 @@ RowLayout{
         height: 5
         Layout.fillWidth: true;
         antialiasing: true;
-        checkable: true
+        checkable: model.checkable
         checked: model.B10
         onClicked:  model.B10 = checked
         background:Rectangle{
@@ -286,7 +289,7 @@ RowLayout{
         height: 5
         Layout.fillWidth: true;
         antialiasing: true;
-        checkable: true
+        checkable: model.checkable
         checked: model.B11
         onClicked:  model.B11 = checked
         background:Rectangle{
@@ -300,7 +303,7 @@ RowLayout{
         height: 5
         Layout.fillWidth: true;
         antialiasing: true;
-        checkable: true
+        checkable: model.checkable
         checked: model.B12
         onClicked:  model.B12 = checked
         background:Rectangle{
@@ -314,7 +317,7 @@ RowLayout{
         height: 5
         Layout.fillWidth: true;
         antialiasing: true;
-        checkable: true
+        checkable: model.checkable
         checked: model.B13
         onClicked:  model.B13 = checked
         background:Rectangle{
@@ -328,7 +331,7 @@ RowLayout{
         height: 5
         Layout.fillWidth: true;
         antialiasing: true;
-        checkable: true
+        checkable: model.checkable
         checked: model.B14
         onClicked:  model.B14 = checked
         background:Rectangle{
@@ -342,7 +345,7 @@ RowLayout{
         height: 5
         Layout.fillWidth: true;
         antialiasing: true;
-        checkable: true
+        checkable: model.checkable
         checked: model.B15
         onClicked:  model.B15 = checked
         background:Rectangle{
@@ -356,7 +359,7 @@ RowLayout{
         height: 5
         Layout.fillWidth: true;
         antialiasing: true;
-        checkable: true
+        checkable: model.checkable
         checked: model.B16
         onClicked:  model.B16 = checked
         background:Rectangle{
