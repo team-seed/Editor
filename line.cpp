@@ -188,23 +188,18 @@ void Line::resetItemAt(int index)
     qDebug()<<"Reset"<<index<<"OK";
 }
 
-bool Line::loadNotes(int time,QJsonObject input)
+bool Line::loadNotes(double time,QJsonObject input)
 {
 
-    int bpm = input.value("BPM").toInt();
+    double bpm = input.value("BPM").toDouble();
     int beat = input.value("BEATS").toInt();
     int offset = input.value("OFFSET").toInt();
-  //qDebug()<<"time: "<<time<<"beat: "<<beat<<"bpm: "<<bpm
-   //        <<"offset: "<<offset;
-    setBeatLines(time,bpm,beat,offset);
-
-    //int beatspacing = qRound((double)60/bpm*1000);
-  //qDebug()<<"Size: 1"<<mItems.size();
     QJsonArray notes = input.value("NOTES").toArray();
 
-    //qDebug()<<notes;    
+    setBeatLines(time,bpm,beat,offset);
+    double beatspacing = 60000/bpm;
+
     for(int i=0;i<notes.size();i++){
-        //qDebug()<<notes[i];
         QStringList temp;
         temp  = notes[i].toString().split(',');
 
@@ -213,43 +208,49 @@ bool Line::loadNotes(int time,QJsonObject input)
         int left = temp[2].toInt();   //left
         int right = temp[3].toInt()-1;   //right
         int type = temp[4].mid(0,1).toInt();   //type
-      //qDebug()<<"temp[4]: "<<temp[4]<<" type: "<<type;
         int currentLine = -1;           //  find currentLine
-        for(int i=0;i<mItems.size();i++){
-            if(mItems[i].time==time){
+
+        for(int i=0;i<mItems.size();i++){           //從Beat上找
+            if(qRound(mItems[i].time)==time){
                 currentLine = i;
                 break;
             }
         }
-        /*
-        for(int i=0;i<mItems.size()-1;i++){
-            if(qRound((double)(mItems[i].time+(mItems[i].time-mItems[i+1].time)/2))==time){   // 1/2線
-                sliceAt(i,2);
-                currentLine = i+1;
-                break;
-            }
-            else if(qRound((double)(mItems[i].time+(mItems[i].time-mItems[i+1].time)*2/3))==time){   // 2/3線
-                    sliceAt(i,3);
-                    currentLine = i+1;
-                    break;
-            }
-            else if(qRound((double)(mItems[i].time+(mItems[i].time-mItems[i+1].time)*1/3))==time){   // 1/3線
-                    sliceAt(i,3);
+
+        if(currentLine==-1){    //若Beat上找不到，往1/2 1/4 1/6 1/8 1/12Beat上找
+
+            for(int i=0;i<mItems.size()-1;i++){
+                if(qRound((double)(mItems[i+1].time+(mItems[i].time-mItems[i+1].time)/4))==time){   // 1/4線
+                    sliceAt(i,2);
+                    sliceAt(i+1,2);
                     currentLine = i+2;
                     break;
+                }
+                else if(qRound((double)(mItems[i+1].time+(mItems[i].time-mItems[i+1].time)/2))==time){   // 1/2線
+                    sliceAt(i,2);
+                    currentLine = i+1;
+                    break;
+                }
+                else if(qRound((double)(mItems[i+1].time+(mItems[i].time-mItems[i+1].time)*1/3))==time){   // 1/3線
+                        sliceAt(i,3);
+                        currentLine = i+2;
+                        break;
+                }
+                else if(qRound((double)(mItems[i+1].time+(mItems[i].time-mItems[i+1].time)*2/3))==time){   // 2/3線
+                        sliceAt(i,3);
+                        currentLine = i+1;
+                        break;
+                }
             }
-        }*/
-
-        qDebug()<<"current: "<<currentLine;
+        }
+        qDebug()<<"Current: "<<currentLine;
         if(currentLine==-1) continue;
         mItems[currentLine].gesture = gesture;
         mItems[currentLine].left = left;
         mItems[currentLine].right = right;
         mItems[currentLine].type = type;
         if(type==2){    //swipe
-          //qDebug()<<"temp[4]:"<<temp[4];
             mItems[currentLine].direction = temp[4].mid(2,1).toInt();
-          //qDebug()<<" dir: "<<mItems[currentLine].direction;
         }else if(type == 1){     //hold
             QStringList temp2 = temp[4].split('|');
             int HoldPreviousLine = currentLine;
@@ -267,25 +268,72 @@ bool Line::loadNotes(int time,QJsonObject input)
 
                 HoldcurrentLine = -1;
                 for(int i=0;i<mItems.size();i++){       //find current line
-                    if(mItems[i].time==HoldTime){
+                    if(qRound(mItems[i].time)==HoldTime){
                         HoldcurrentLine = i;
                     }
                 }
+                if(HoldcurrentLine==-1){    //若Beat上找不到，往1/2 1/4 1/6 1/8 1/12Beat上找
+
+                    for(int i=0;i<mItems.size()-1;i++){
+                        if(qRound((double)(mItems[i+1].time+(mItems[i].time-mItems[i+1].time)/4))==HoldTime){   // 1/4線
+                            sliceAt(i,2);
+                            sliceAt(i+1,2);
+                            HoldcurrentLine = i+2;
+                            break;
+                        }
+                        else if(qRound((double)(mItems[i+1].time+(mItems[i].time-mItems[i+1].time)/2))==HoldTime){   // 1/2線
+                            sliceAt(i,2);
+                            HoldcurrentLine = i+1;
+                            break;
+                        }
+                        else if(qRound((double)(mItems[i+1].time+(mItems[i].time-mItems[i+1].time)*1/3))==HoldTime){   // 1/3線
+                                sliceAt(i,3);
+                                HoldcurrentLine = i+2;
+                                break;
+                        }
+                        else if(qRound((double)(mItems[i+1].time+(mItems[i].time-mItems[i+1].time)*2/3))==HoldTime){   // 2/3線
+                                sliceAt(i,3);
+                                HoldcurrentLine = i+1;
+                                break;
+                        }
+                    }
+                }
+                if(HoldcurrentLine==-1) continue;
                 if(currentLine==HoldPreviousLine)
                     mItems[currentLine].turningPoint = HoldcurrentLine;
-              //qDebug()<<"Holdcurrent: "<<HoldcurrentLine;
-                if(HoldcurrentLine==-1) continue;
+
                 if(NextHoldTime!=-1){
                     HoldNextLine = -1;
                     for(int i=0;i<mItems.size();i++){      //find next line
-                        if(mItems[i].time==NextHoldTime){
+                        if(qRound(mItems[i].time)==NextHoldTime){
                             HoldNextLine = i;
                         }
                     }
-                    if(HoldNextLine==-1) continue;
+                    for(int i=0;i<mItems.size()-1;i++){
+                        if(qRound((double)(mItems[i+1].time+(mItems[i].time-mItems[i+1].time)/4))==NextHoldTime){   // 1/4線
+                            sliceAt(i,2);
+                            sliceAt(i+1,2);
+                            HoldNextLine = i+2;
+                            break;
+                        }
+                        else if(qRound((double)(mItems[i+1].time+(mItems[i].time-mItems[i+1].time)/2))==NextHoldTime){   // 1/2線
+                            sliceAt(i,2);
+                            HoldNextLine = i+1;
+                            break;
+                        }
+                        else if(qRound((double)(mItems[i+1].time+(mItems[i].time-mItems[i+1].time)*1/3))==NextHoldTime){   // 1/3線
+                                sliceAt(i,3);
+                                HoldNextLine = i+2;
+                                break;
+                        }
+                        else if(qRound((double)(mItems[i+1].time+(mItems[i].time-mItems[i+1].time)*2/3))==NextHoldTime){   // 2/3線
+                                sliceAt(i,3);
+                                HoldNextLine = i+1;
+                                break;
+                        }
+                    }
                 }
 
-                if(HoldcurrentLine==-1) continue;        //type,gesture,left,right,previous,turningPoint
                 mItems[HoldcurrentLine].type = type;
                 mItems[HoldcurrentLine].gesture = gesture;
                 mItems[HoldcurrentLine].left = Holdleft;
@@ -312,7 +360,6 @@ bool Line::loadNotes(int time,QJsonObject input)
 
 void Line::setBeatLines(double time,double bpm,int beat,int offset)
 {
-    moffset = offset;
     //Remove old line
     if(!mItems.empty()){
         emit preItemRemoved(0,mItems.size()-1);
@@ -320,29 +367,26 @@ void Line::setBeatLines(double time,double bpm,int beat,int offset)
         emit postItemRemoved();
     }
 
-    //Add new Line (time/(60/bpm*1000))
+    moffset = offset;
     int count = ceil( time/((double)60000/bpm) );
-
     double spacing = (double)60000/bpm;
-
     double Linetime = (count-mItems.size())*spacing+moffset;
 
     int supportline = 1;
     if(offset!=0)   supportline+=1;
 
     for(int i=0;i<count;i++){
-        if((count-i+supportline-1)%beat==0){
+        if((count-i)%beat==0){
            appendItem(Linetime,10,qRound(spacing),"royalblue",false,mItems.size(),true);
          }
         else{
            appendItem(Linetime,5,qRound(spacing),"lightblue",false,mItems.size(),true);
         }
         Linetime = (count-mItems.size())*spacing+moffset;
-        qDebug()<<Linetime;
     }
     if(offset!=0)
         appendItem(Linetime,2,offset,"black",false,mItems.size(),true);
-    appendItem(Linetime,2,167,"black",false,mItems.size(),false);
+    appendItem(Linetime,2,167,"black",false,mItems.size(),false);       //底線
 }
 
 void Line::setType(int type)
