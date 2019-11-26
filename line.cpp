@@ -498,8 +498,11 @@ int Line::shapeHeight(int previous,int bpm,int spacing)
    // qDebug()<<"current"<<current;
     if(current == -1) return 0;
     //qDebug()<<"spacing "<<spacing;
-    int height = (previous-current)*spacing;
-   // qDebug()<<"pre "<<previous<<" current "<<current<<" height "<<height;
+    int height = 0;//(previous-current)*spacing;
+    for(int i=current;i<previous;i++){
+        height+=mItems[i].buttonHeight;
+    }
+    qDebug()<<"pre "<<previous<<" current "<<current<<" height "<<height;
     return height;
 
 }
