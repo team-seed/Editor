@@ -242,6 +242,7 @@ Column {
                                 select_part_content.append({"text":"PART"+(current_part+1)})
                                 part_select.currentIndex=current_part
                                 line.setBeatLines(player.time,bpm,beat,offset);
+                                view_height = line.getTotalHeight()-lane.height
                                 add_window.close()
                             }
                         }
@@ -286,7 +287,6 @@ Column {
 
                         select_part_content.remove(combobox_delete.currentIndex)
                         part.splice(combobox_delete.currentIndex,1)
-
                         delete_window.close()
                     }
                 }
@@ -409,7 +409,13 @@ Column {
             line.holdClear()
         }
     }
-
+    Button{
+        text: "ResetTime"
+        onClicked: {
+            view_height = line.getTotalHeight()-lane.height
+            lane.contenty = view_height-player.position
+        }
+    }
     //show detail
     TextArea{
         id:detail
@@ -419,7 +425,7 @@ Column {
             detail.text="Part : "+(current_part+1)+"\n"+
                     "BPM : "+part[current_part]["BPM"]+"\n"+
                     "OFFSET : "+part[current_part]["OFFSET"]+"\n"+
-                    "BEAT : "+part[current_part]["BEAT"]
+                    "BEAT : "+part[current_part]["BEATS"]
         }
 
     }

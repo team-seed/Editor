@@ -13,6 +13,7 @@ RowLayout{
         checkable: model.checkable
         checked: model.B1
         onClicked:  model.B1 = checked
+
         //style:ButtonStyle
         background:Rectangle{
             height: model.bold
@@ -124,7 +125,7 @@ RowLayout{
 
 
         Text{
-            text:model.time+','+model.left+','+model.right+','+model.turningPoint+','+model.previous+','+model.type
+            text:model.time
             anchors.top: parent.top
             anchors.topMargin: 10
             anchors.left: parent.left
@@ -132,30 +133,6 @@ RowLayout{
             font.pointSize: 20
             visible: model.checkable
         }
-        /*
-        Rectangle{
-            id:type
-            color: (model.type===0)?"black":(model.type===1)?"yellow":(model.type===2)?"purple":"white"
-            width: 15
-            height: 15
-            radius: 15
-            anchors.left: parent.left
-            anchors.leftMargin: 10
-            anchors.top: parent.top
-            anchors.topMargin: 10
-        }*/
-        /*
-        Rectangle{
-            id:gesture
-            color: (model.gesture===0)?"royalblue":(model.gesture===1)?"orange":"white"
-            width: 15
-            height: 15
-            radius: 15
-            anchors.left: type.left
-            anchors.leftMargin: 30
-            anchors.top: parent.top
-            anchors.topMargin: 10
-        }*/
     }
     Button{
         id:b2

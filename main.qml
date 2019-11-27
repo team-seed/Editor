@@ -30,11 +30,11 @@ Window {
     property variant current_direc: 0
 
     //按鈕高度
-    property double button_height: (60/bpm)*1000
+    property double button_height: (600000/bpm)
     //按鈕數量
     property int button_count :Math.ceil(player.time/((60/bpm)*1000))
     //譜面高度
-    property double view_height: (button_height*button_count)-lane.height+(lane.height/5)
+    property double view_height: line.getTotalHeight()-lane.height
     //譜面最上方額外部分
     property int  chart_top_padding: view_height-player.time
     //最下面墊高

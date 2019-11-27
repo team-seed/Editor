@@ -35,8 +35,11 @@ Rectangle {
             }
             onContentYChanged:{
                 if ( (chart_center+view_height/2)-contentY > 0 &&
-                        contentY >= (chart_center-view_height/2) )
+                        contentY >= (chart_center-view_height/2) ){
                     song_slider.value= ((chart_center+view_height/2)-contentY)/billy
+                }
+
+
             }
 
         }

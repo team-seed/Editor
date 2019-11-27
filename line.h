@@ -58,11 +58,12 @@ public slots:
     int shapeLeft(int);
     int shapeRight(int);
     int shapeHeight(int);
-
+    double getTotalHeight();
 
 private:
     QVector <LineItem> mItems;
     QVector <int> holdList;
+    double mTotalHeight;
     int moffset;
     int mType;
     int mGesture;
