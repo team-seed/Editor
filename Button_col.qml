@@ -36,6 +36,7 @@ Column {
                     select_part_content.append({"text" : "PART"+(i+1)})
                 part_select.currentIndex=0
                 detail.setdetail()
+                 view_height = line.getTotalHeight()-lane.height
             }
         }
     }
@@ -430,13 +431,6 @@ Column {
         text:"Hold線完成"
         onClicked: {
             line.holdClear()
-        }
-    }
-    Button{
-        text: "ResetTime"
-        onClicked: {
-            view_height = line.getTotalHeight()-lane.height
-            lane.contenty = view_height-player.position
         }
     }
     //show detail

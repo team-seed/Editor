@@ -95,7 +95,6 @@ bool Line::editorFileOpen(QStringList file)
 {
     int position = 0;
     for(int i=0;i<file.size();i++){
-        qDebug()<<i;
         emit preItemAppended(position);
         LineItem item;
         QString str = file[i];
@@ -124,6 +123,11 @@ bool Line::editorFileOpen(QStringList file)
         mItems.insert(position++,item);
         emit postItemAppended();
     }
+    double temp = 0;
+    for(int i=0;i<mItems.size();i++){
+        temp += mItems[i].buttonHeight;
+    }
+    mTotalHeight = temp;
     return true;
 }
 bool Line::setItemAt(int index, const LineItem &item,int role)

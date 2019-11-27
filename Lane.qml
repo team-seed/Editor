@@ -25,6 +25,7 @@ Rectangle {
             id:chart_view
             clip: true
             contentY: contenty
+            boundsBehavior: Flickable.StopAtBounds
             model: LineModel{
                 id: line_model
                 mline: line
@@ -38,8 +39,6 @@ Rectangle {
                         contentY >= (chart_center-view_height/2) ){
                     song_slider.value= ((chart_center+view_height/2)-contentY)/billy
                 }
-
-
             }
 
         }
