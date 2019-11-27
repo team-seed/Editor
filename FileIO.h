@@ -39,7 +39,6 @@ public slots:
         file.close();
         return json_data;
     }
-
     bool savechart(QUrl fileurl, QJsonObject chart){
         QFile file(get_path(fileurl));
         QByteArray data=QJsonDocument(chart).toJson(QJsonDocument::Indented);

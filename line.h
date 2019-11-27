@@ -44,6 +44,8 @@ public slots:
 
     bool loadNotes(double,QJsonObject );
     QVector<QString> noteOutput();
+    QVector<QString> editorFileSave();
+    bool editorFileOpen(QStringList);
 
     void setBeatLines(double ,double,int,int);
     void setType(int);

@@ -47,8 +47,85 @@ QVector<QString>Line::noteOutput()
     }
     return Output;
 }
+QVector<QString>Line::editorFileSave()
+{
 
+    QVector<QString>temp;
+    QString str;
+    for(int i=0;i<mItems.size();i++){
+        str="";
+        for(int j=0;j<16;j++){
+            str+=QString::number(mItems[i].checked[j]);
+        }
+        str+=',';
+        str+=QString::number(mItems[i].type);
+        str+=',';
+        str+=QString::number(mItems[i].turningPoint);
+        str+=',';
+        str+=QString::number(mItems[i].previous);
+        str+=',';
+        str+=QString::number(mItems[i].left);
+        str+=',';
+        str+=QString::number(mItems[i].right);
+        str+=',';
+        str+=QString::number(mItems[i].gesture);
+        str+=',';
+        str+=QString::number(mItems[i].time);
+        str+=',';
+        str+=QString::number(mItems[i].bold);
+        str+=',';
+        str+=QString::number(mItems[i].direction);
+        str+=',';
+        str+=QString::number(mItems[i].buttonHeight);
+        str+=',';
+        str+=QString::number(mItems[i].beat_index);
+        str+=',';
+        str+=QString::number(mItems[i].deletable);
+        str+=',';
+        str+=QString::number(mItems[i].checkable);
+        str+=',';
+        str+=mItems[i].color;
+        temp.push_back(str);
+    }
 
+    return temp;
+}
+
+bool Line::editorFileOpen(QStringList file)
+{
+    int position = 0;
+    for(int i=0;i<file.size();i++){
+        qDebug()<<i;
+        emit preItemAppended(position);
+        LineItem item;
+        QString str = file[i];
+        QStringList temp;
+        temp  = str.split(',');
+        for(int i=0;i<16;i++){
+            if(temp[0][i]=='1') item.checked[i] = true;
+            else item.checked[i] = false;
+        }
+        item.type = temp[1].toInt();
+        item.turningPoint = temp[2].toInt();
+        item.previous = temp[3].toInt();
+        item.left = temp[4].toInt();
+        item.right = temp[5].toInt();
+        item.gesture = temp[6].toInt();
+        item.time = temp[7].toDouble();
+        item.bold = temp[8].toInt();
+        item.direction = temp[9].toInt();
+        item.buttonHeight = temp[10].toInt();
+        item.beat_index = temp[11].toInt();
+        if(temp[12]=='1') item.deletable = true;
+        else item .deletable = false;
+        if(temp[13]=='1') item.checkable = true;
+        else item.checkable = false;
+        item.color = temp[14];
+        mItems.insert(position++,item);
+        emit postItemAppended();
+    }
+    return true;
+}
 bool Line::setItemAt(int index, const LineItem &item,int role)
 {
     if(index <=0 || index >= mItems.size()) //設定index 0為終止線，故無法修改

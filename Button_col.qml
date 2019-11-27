@@ -9,6 +9,7 @@ Column {
     property variant all_chart: {"BPM_RANGE" :0 ,"SECTION": part}
     property string str_part: ""
     property variant temp:[]
+    property variant editorInfo: []
 
     //Open Chart
     Button{
@@ -26,8 +27,7 @@ Column {
                 if(all_chart.length===0)
                     console.log("Error")
                 else{
-                    if(!line.loadNotes(player.time,all_chart["SECTION"][0]))
-                        console.log("歌曲不符合")
+                    line.editorFileOpen(all_chart["SECTION"][0]["NOTES"])
                 }
                 part=all_chart["SECTION"]
                 bpm=part[0]["BPM"]
@@ -47,7 +47,9 @@ Column {
         text:"Save Chart"
         onClicked: {
             if(player.isready()){
-                temp =line.noteOutput();
+
+                //temp =line.noteOutput();
+                temp = line.editorFileSave()
                 for(var i=0;i<part.length;i++)
                     part[i]["NOTES"] = [];
                 for(var i=0;i<temp.length;i++){
@@ -63,6 +65,27 @@ Column {
             onAccepted:{
                 if(!fileIO.savechart(file,all_chart))
                     console.log("save fail")
+            }
+        }
+    }
+    //存成遊戲譜面
+    Button{
+        anchors.horizontalCenter: parent.horizontalCenter
+        id:exp
+        text:"Export Chart"
+        onClicked: {
+            if(player.isready()){
+
+                temp =line.noteOutput();
+
+                for(var i=0;i<part.length;i++)
+                    part[i]["NOTES"] = [];
+                for(var i=0;i<temp.length;i++){
+                    part[0]["NOTES"][i] = temp[i];
+                }
+                all_chart["SECTION"] = part;
+                savechart.open()
+
             }
         }
     }
