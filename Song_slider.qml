@@ -13,14 +13,14 @@ Slider {
     implicitHeight: parent.height-100
     stepSize: 200
     //release
+
     onPressedChanged: {
-        if(pressed)
+        if(pressed && play_state)
             timer.stop()
-        if( !pressed ){
+        if( !pressed && play_state){
             player.play_from(value)
             timer.restart()
         }
-
     }
 
     //移動顯示

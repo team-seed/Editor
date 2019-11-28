@@ -471,7 +471,7 @@ void Line::setBeatLines(double time,double bpm,int beat,int offset)
         mTotalHeight += qRound(spacing);
     }
     if(offset!=0 && offset<spacing){
-        appendItem(Linetime,2,offset,"black",false,CurrentSize,true);
+        appendItem(Linetime,2,offset,"black",false,mItems.size(),true);
         mTotalHeight += offset;
     }
 
