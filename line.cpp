@@ -436,35 +436,49 @@ bool Line::loadNotes(double time,QJsonObject input)
 void Line::setBeatLines(double time,double bpm,int beat,int offset)
 {
     //Remove old line
-    if(!mItems.empty()){
+    /*if(!mItems.empty()){
         emit preItemRemoved(0,mItems.size()-1);
         mItems.clear();
         emit postItemRemoved();
+    }*/
+    for(int i=0;i<mItems.size();i++){
+        if(mItems[i].time >offset){
+            qDebug()<<"Remove Line :"<<i;
+            mTotalHeight -= mItems[i].buttonHeight;
+            emit preItemRemoved(i,i);
+            mItems.remove(i);
+            emit postItemRemoved();
+            i--;
+        }
     }
-
+    int CurrentSize = mItems.size();
     moffset = offset;
-    int count = ceil( time/((double)60000/bpm) );
+    int count = ceil( (time-offset)/((double)60000/bpm) );
     double spacing = (double)60000/bpm;
-    double Linetime = (count-mItems.size())*spacing+moffset;
-
+    int currentLine = 0;
     int supportline = 1;
+    double Linetime;
     if(offset!=0)   supportline+=1;
-    for(int i=0;i<count;i++){
-        if((count-i)%beat==0){
-           appendItem(Linetime,10,qRound(spacing),"royalblue",false,mItems.size(),true);
+
+    for(Linetime = count*spacing+offset ; Linetime>offset;Linetime-=spacing){
+        if((count-currentLine)%beat==0){
+           appendItem(Linetime,10,qRound(spacing),"royalblue",false,currentLine,true);
          }
         else{
-           appendItem(Linetime,5,qRound(spacing),"lightblue",false,mItems.size(),true);
+           appendItem(Linetime,5,qRound(spacing),"lightblue",false,currentLine,true);
         }
-        Linetime = (count-mItems.size())*spacing+moffset;
+        currentLine++;
         mTotalHeight += qRound(spacing);
     }
-    if(offset!=0){
-        appendItem(Linetime,2,offset,"black",false,mItems.size(),true);
+    if(offset!=0 && offset<spacing){
+        appendItem(Linetime,2,offset,"black",false,CurrentSize,true);
         mTotalHeight += offset;
     }
-    mTotalHeight += 167;
-    appendItem(0,2,167,"black",false,mItems.size(),false);       //底線
+
+    if(mItems[mItems.size()-1].buttonHeight!=167){
+        appendItem(0,2,167,"black",false,mItems.size(),false);       //底線
+         mTotalHeight += 167;
+    }
 }
 
 void Line::setType(int type)
