@@ -17,7 +17,7 @@ struct LineItem{        /*定義一個Line*/
     double time;
     int bold;
     int direction;
-    int buttonHeight;
+    double buttonHeight;
     int beat_index;
     bool deletable;     // 1/2 ,1/4 beat線等等
     bool checkable;
@@ -47,19 +47,19 @@ public slots:
     QVector<QString> editorFileSave();
     bool editorFileOpen(QStringList);
 
-    void setBeatLines(double ,double,int,int);
+    void setBeatLines(double ,double,int,double);
     void setType(int);
     void setGesture(int);
     void setDirection(int);
 
-    void appendItem(double,int,int,QString,bool,int,bool);
+    void appendItem(double,int,double,QString,bool,int,bool);
     void sliceAt(int,int);
     bool removeLineAt(int);
     void holdClear();
 
     int shapeLeft(int);
     int shapeRight(int);
-    int shapeHeight(int);
+    double shapeHeight(int);
     double getTotalHeight();
 
 private:

@@ -113,7 +113,7 @@ bool Line::editorFileOpen(QStringList file)
         item.time = temp[7].toDouble();
         item.bold = temp[8].toInt();
         item.direction = temp[9].toInt();
-        item.buttonHeight = temp[10].toInt();
+        item.buttonHeight = temp[10].toDouble();
         item.beat_index = temp[11].toInt();
         if(temp[12]=='1') item.deletable = true;
         else item .deletable = false;
@@ -433,7 +433,7 @@ bool Line::loadNotes(double time,QJsonObject input)
     return true;
 }
 
-void Line::setBeatLines(double time,double bpm,int beat,int offset)
+void Line::setBeatLines(double time,double bpm,int beat,double offset)
 {
     //Remove old line
     /*if(!mItems.empty()){
@@ -441,9 +441,11 @@ void Line::setBeatLines(double time,double bpm,int beat,int offset)
         mItems.clear();
         emit postItemRemoved();
     }*/
+    double previousTime = 0 ;
     for(int i=0;i<mItems.size();i++){
-        if(mItems[i].time >offset){
+        if(mItems[i].time >offset && previousTime ==0){
             qDebug()<<"Remove Line :"<<i;
+            previousTime = mItems[i-1].time;
             mTotalHeight -= mItems[i].buttonHeight;
             emit preItemRemoved(i,i);
             mItems.remove(i);
@@ -461,24 +463,31 @@ void Line::setBeatLines(double time,double bpm,int beat,int offset)
     if(offset!=0)   supportline+=1;
 
     for(Linetime = count*spacing+offset ; Linetime>offset;Linetime-=spacing){
-        if((count-currentLine)%beat==0){
+        if((count-currentLine)%beat==0 && (Linetime-offset)>0.1){
            appendItem(Linetime,10,qRound(spacing),"royalblue",false,currentLine,true);
+           qDebug()<<"preHeight: "<<mTotalHeight;
+           mTotalHeight += qRound(spacing);
+           qDebug()<<"poeheight"<<mTotalHeight<<"spacing: "<<spacing;
          }
-        else{
+        else if((Linetime-offset)>0.1){
            appendItem(Linetime,5,qRound(spacing),"lightblue",false,currentLine,true);
+           mTotalHeight += qRound(spacing);
         }
         currentLine++;
-        mTotalHeight += qRound(spacing);
     }
-    if(offset!=0 && offset<spacing){
-        appendItem(Linetime,2,offset,"black",false,mItems.size(),true);
+    qDebug()<<"preHeight: "<<mTotalHeight;
+    if(offset!=0 && previousTime==0){
+        appendItem(offset,2,offset,"black",false,mItems.size(),true);
         mTotalHeight += offset;
     }
-
+    else{
+        appendItem(offset,2,offset-previousTime,"black",false,mItems.size(),true);
+    }
     if(mItems[mItems.size()-1].buttonHeight!=167){
         appendItem(0,2,167,"black",false,mItems.size(),false);       //底線
-         mTotalHeight += 167;
+        mTotalHeight += 167;
     }
+
 }
 
 void Line::setType(int type)
@@ -496,7 +505,7 @@ void Line::setDirection(int direction)
     mDirection = direction;
 }
 
-void Line::appendItem(double time,int bold,int height,QString color,bool deletable,int position,bool checkable)
+void Line::appendItem(double time,int bold,double height,QString color,bool deletable,int position,bool checkable)
 {
     emit preItemAppended(position);
 
@@ -539,8 +548,8 @@ void Line::sliceAt(int index, int slice)
         else if(mItems[i].previous!=-1)  qDebug()<<"slice前: "<<i<<": previous = "<< mItems[i].previous;
     }
 
-    int currentHeight = mItems[index].buttonHeight;
-    int slicedHeight  = qRound((double)currentHeight/slice);
+    double currentHeight = mItems[index].buttonHeight;
+    double slicedHeight  = (double)currentHeight/slice;
 
     double currentTime = mItems[index].time;
     double previousTime = mItems[index+1].time;
@@ -587,7 +596,7 @@ int Line::shapeRight(int previous)
     if(previous==-1) return 0;
     return mItems[previous].right;
 }
-int Line::shapeHeight(int previous)
+double Line::shapeHeight(int previous)
 {
     if(previous==-1) return 0;
     int current = -1;
@@ -596,7 +605,7 @@ int Line::shapeHeight(int previous)
         if(mItems[i].previous == previous)
              current = i;
     if(current == -1) return 0;
-    int height = 0;
+    double height = 0;
     for(int i=current;i<previous;i++){      //計算這兩條線之間的高度差
         height+=mItems[i].buttonHeight;
     }
@@ -605,6 +614,7 @@ int Line::shapeHeight(int previous)
 
 double Line::getTotalHeight()
 {
+    qDebug()<<"Height: "<<mTotalHeight;
     return mTotalHeight;
 }
 
