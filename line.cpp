@@ -473,6 +473,7 @@ void Line::setBeatLines(double time,double bpm,int beat,double offset)
            appendItem(Linetime,5,qRound(spacing),"lightblue",false,currentLine,true);
            mTotalHeight += qRound(spacing);
         }
+        qDebug()<<"Line: "<<currentLine<<" Time: "<<Linetime;
         currentLine++;
     }
     qDebug()<<"preHeight: "<<mTotalHeight;
