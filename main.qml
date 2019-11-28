@@ -47,13 +47,6 @@ Window {
         id:background
         anchors.fill: parent
     }
-    //Lane
-    Lane{
-        id:lane
-        anchors.horizontalCenter: background.horizontalCenter
-        anchors.verticalCenter: background.verticalCenter
-        anchors.horizontalCenterOffset: -45
-    }
 
     //plugin
     Player{
@@ -84,8 +77,16 @@ Window {
     //slider
     Song_slider{
         id: song_slider
-        anchors.left: background.left
+        anchors.left: lane.right
         anchors.leftMargin: 30
+        anchors.verticalCenter: background.verticalCenter
+    }
+
+    //Lane
+    Lane{
+        id:lane
+        anchors.left: background.left
+        anchors.leftMargin: 50
         anchors.verticalCenter: background.verticalCenter
     }
 
