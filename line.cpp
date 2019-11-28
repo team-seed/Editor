@@ -461,17 +461,19 @@ void Line::setBeatLines(double time,double bpm,int beat,int offset)
     if(offset!=0)   supportline+=1;
 
     for(Linetime = count*spacing+offset ; Linetime>offset;Linetime-=spacing){
-        if((count-currentLine)%beat==0){
+        if((count-currentLine)%beat==0 && (Linetime-offset)>0.1){
            appendItem(Linetime,10,qRound(spacing),"royalblue",false,currentLine,true);
          }
-        else{
+        else if((Linetime-offset)>0.1){
            appendItem(Linetime,5,qRound(spacing),"lightblue",false,currentLine,true);
         }
+        qDebug()<<"Line: "<<currentLine<<" Time: "<<Linetime;
         currentLine++;
         mTotalHeight += qRound(spacing);
     }
-    if(offset!=0 && offset<spacing){
-        appendItem(Linetime,2,offset,"black",false,mItems.size(),true);
+    if(offset!=0 && CurrentSize==0)
+    {
+        appendItem(offset,2,offset,"black",false,mItems.size(),true);
         mTotalHeight += offset;
     }
 
@@ -605,6 +607,7 @@ int Line::shapeHeight(int previous)
 
 double Line::getTotalHeight()
 {
+    qDebug()<<"total: "<<mTotalHeight;
     return mTotalHeight;
 }
 
