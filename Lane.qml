@@ -27,7 +27,6 @@ Rectangle {
             contentY: contenty
             boundsBehavior: Flickable.StopAtBounds
             model: LineModel{
-                id: line_model
                 mline: line
             }
             delegate:ButtonLine{
@@ -40,8 +39,29 @@ Rectangle {
                     song_slider.value= ((chart_center+view_height/2)-contentY)/billy
                 }
             }
-
+            ListView{
+                id:sub_view
+                clip: true
+                anchors.fill: chart_view
+                boundsBehavior: Flickable.StopAtBounds
+                model: LineModel{
+                    mline: line2
+                }
+                delegate: ButtonLine2{
+                    width:parent.width
+                    visible:true
+                }
+                onContentYChanged:{
+                    if ( (chart_center+view_height/2)-contentY > 0 &&
+                            contentY >= (chart_center-view_height/2) ){
+                        song_slider.value= ((chart_center+view_height/2)-contentY)/billy
+                    }
+                }
+                contentY: chart_view.contentY
+                z:mode
+            }
         }
+
 /*縮放用
         Keys.onPressed: {
             if (event.key == Qt.Key_Control) {

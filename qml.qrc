@@ -5,5 +5,6 @@
         <file>Song_slider.qml</file>
         <file>Lane.qml</file>
         <file>ButtonLine.qml</file>
+        <file>ButtonLine2.qml</file>
     </qresource>
 </RCC>

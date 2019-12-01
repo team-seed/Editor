@@ -10,7 +10,7 @@ Window {
     title: qsTr("Hello World")
     property bool play_state: false
     property double start_time: Date.now()
-    property int mode: 0
+    property int mode: -1
     //譜設定
     property double bpm: 0
     property int offset: 0

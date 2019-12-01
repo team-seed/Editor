@@ -42,7 +42,7 @@ signals:
 public slots:
     bool deletable(int);            // 判斷此條線是否為可刪除 (1/2, 1/4拍線)
 
-    bool loadNotes(double,QJsonObject );
+   // bool loadNotes(double,QJsonObject );
     QVector<QString> noteOutput();
     QVector<QString> editorFileSave();
     bool editorFileOpen(QStringList);

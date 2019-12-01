@@ -9,6 +9,7 @@ Column {
     property variant all_chart: {"BPM_RANGE" :0 ,"SECTION": part}
     property string str_part: ""
     property variant temp:[]
+    property variant temp2:[]
     property variant editorInfo: []
 
     //Open Chart
@@ -27,7 +28,8 @@ Column {
                 if(all_chart.length===0)
                     console.log("Error")
                 else{
-                    line.editorFileOpen(all_chart["SECTION"][0]["NOTES"])
+                    line.editorFileOpen(all_chart["SECTION"][0]["NOTES"][0])
+                    line2.editorFileOpen(all_chart["SECTION"][0]["NOTES"][1])
                 }
                 part=all_chart["SECTION"]
                 bpm=part[0]["BPM"]
@@ -51,10 +53,16 @@ Column {
 
                 //temp =line.noteOutput();
                 temp = line.editorFileSave()
+                temp2 = line2.editorFileSave()
                 for(var i=0;i<part.length;i++)
                     part[i]["NOTES"] = [];
+                part[0]["NOTES"].push([]);
+                part[0]["NOTES"].push([]);
                 for(var i=0;i<temp.length;i++){
-                    part[0]["NOTES"][i] = temp[i];
+                    part[0]["NOTES"][0].push(temp[i]);
+                }
+                for(var i=0;i<temp2.length;i++){
+                    part[0]["NOTES"][1].push(temp2[i]);
                 }
                 all_chart["SECTION"] = part;
                 savechart.open()
@@ -78,11 +86,14 @@ Column {
             if(player.isready()){
 
                 temp =line.noteOutput();
-
+                temp2 =line2.noteOutput();
                 for(var i=0;i<part.length;i++)
                     part[i]["NOTES"] = [];
                 for(var i=0;i<temp.length;i++){
                     part[0]["NOTES"][i] = temp[i];
+                }
+                for(var i=0;i<temp2.length;i++){
+                    part[0]["NOTES"].push(temp2[i]);
                 }
                 all_chart["SECTION"] = part;
                 savechart.open()
@@ -266,6 +277,7 @@ Column {
                                 select_part_content.append({"text":"PART"+(current_part+1)})
                                 part_select.currentIndex=current_part
                                 line.setBeatLines(player.time,bpm,beat,offset);
+                                line2.setBeatLines(player.time,bpm,beat,offset);
                                 view_height = line.getTotalHeight()-lane.height
                                 add_window.close()
                             }
@@ -353,6 +365,7 @@ Column {
         onActivated :{
             current_gesture=gesture_select.currentIndex
             line.setGesture(gesture_select.currentIndex)
+            line2.setGesture(gesture_select.currentIndex)
         }
         Component.onCompleted: {
             for(var i=0;i<gesture.length;i++)
@@ -376,6 +389,7 @@ Column {
         onActivated :{
             current_type=type_select.currentIndex
             line.setType(type_select.currentIndex)
+            line2.setType(type_select.currentIndex)
             
         }
         Component.onCompleted: {
@@ -405,6 +419,7 @@ Column {
         onActivated :{
             current_direc=direc_select.currentIndex
             line.setDirection(direc_select.currentIndex)
+            line2.setDirection(direc_select.currentIndex)
         }
         Component.onCompleted: {
             for(var i=0;i<direc.length;i++){
@@ -419,18 +434,19 @@ Column {
             }
         }
     }
-    /*
+
     CheckBox{
         id:mode_switch
         text: "EditorMode"
         onCheckStateChanged: {
             mode = mode_switch.checked?1:-1
         }
-    }*/
+    }
     Button{
         text:"Hold線完成"
         onClicked: {
             line.holdClear()
+            line2.holdClear()
         }
     }
     //show detail

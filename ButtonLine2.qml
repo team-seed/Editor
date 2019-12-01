@@ -39,7 +39,7 @@ RowLayout{
                 strokeColor: "white"
                 fillGradient: LinearGradient {
                     x1:  model.left*lane_background.width/16; y1: 0
-                    x2:(line.shapeRight(model.previous)+1)*lane_background.width/16 ; y2: line.shapeHeight(model.previous)
+                    x2:(line2.shapeRight(model.previous)+1)*lane_background.width/16 ; y2: line2.shapeHeight(model.previous)
                     GradientStop { position: 0; color: "lightsalmon" }
                     GradientStop { position: 0.2; color: "tomato" }
                     GradientStop { position: 0.4; color: "red" }
@@ -50,13 +50,10 @@ RowLayout{
                 //dashPattern: [ 1, 4 ]
                 startX: model.left*lane_background.width/16; startY: 0
                 PathLine { x:(model.right+1)*lane_background.width/16; y: 0 }
-                PathLine { x:(line.shapeRight(model.previous)+1)*lane_background.width/16; y: line.shapeHeight(model.previous)}
-                PathLine { x:(line.shapeLeft(model.previous))*lane_background.width/16 ; y: line.shapeHeight(model.previous)}
+                PathLine { x:(line2.shapeRight(model.previous)+1)*lane_background.width/16; y: line2.shapeHeight(model.previous)}
+                PathLine { x:(line2.shapeLeft(model.previous))*lane_background.width/16 ; y: line2.shapeHeight(model.previous)}
                 PathLine { x:model.left*lane_background.width/16   ; y: 0}
             }
-        }
-        Shape{
-
         }
         /*
         Button{
@@ -75,56 +72,7 @@ RowLayout{
                 color: "black"
             }
         }*/
-        Button{
-            id:slicer_2
-            width: 15
-            height: 8
-            visible: model.checkable
-            anchors.left: parent.left
-            anchors.leftMargin: 10
-            anchors.top: parent.verticalCenter
-            anchors.topMargin: -10
-            onClicked: {
-                model.refresh = line.sliceAt(model.index,2)        //把index這條Beat切成2等分
-            }
-            background:Rectangle{
-                color: "plum"
-            }
-        }
-        Button{
-            id:slicer_3
-            width: 15
-            height: 8
-            visible: model.checkable
-            anchors.left: parent.left
-            anchors.leftMargin: 10
-            anchors.top: parent.verticalCenter
-            anchors.topMargin: 10
-            onClicked: {
-                model.refresh = line.sliceAt(model.index,3)        //把index這條Beat切成3等分
-            }
-            background:Rectangle{
-                color: "palegreen"
-            }
-        }
-        Button{
-            id:deleter
-            width: 15
-            height: 15
-            anchors.left: parent.left
-            anchors.leftMargin: 10
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 5
-            visible: line.deletable(model.index+1)
-            onClicked: {
-                model.refresh = line.removeLineAt(model.index+1)      //刪掉index+1這條線
-            }
-            background: Text{
-                text: "✖"
-                font.pointSize: 10
-                color: "red"
-            }
-        }
+
 
 
         Text{
@@ -346,6 +294,56 @@ RowLayout{
             height: model.bold
             implicitHeight: model.button_height
             color: b16.checked ? "red" : model.color
+        }
+        Button{
+            id:slicer_2
+            width: 15
+            height: 8
+            visible: model.checkable
+            anchors.right: parent.right
+            anchors.rightMargin: 10
+            anchors.top: parent.verticalCenter
+            anchors.topMargin: -10
+            onClicked: {
+                model.refresh = line2.sliceAt(model.index,2)        //把index這條Beat切成2等分
+            }
+            background:Rectangle{
+                color: "plum"
+            }
+        }
+        Button{
+            id:slicer_3
+            width: 15
+            height: 8
+            visible: model.checkable
+            anchors.right: parent.right
+            anchors.rightMargin: 10
+            anchors.top: parent.verticalCenter
+            anchors.topMargin: 10
+            onClicked: {
+                model.refresh = line2.sliceAt(model.index,3)        //把index這條Beat切成3等分
+            }
+            background:Rectangle{
+                color: "palegreen"
+            }
+        }
+        Button{
+            id:deleter
+            width: 15
+            height: 15
+            anchors.right: parent.right
+            anchors.rightMargin: 10
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 5
+            visible: line2.deletable(model.index+1)
+            onClicked: {
+                refresh = line2.removeLineAt(model.index+1)      //刪掉index+1這條線
+            }
+            background: Text{
+                text: "✖"
+                font.pointSize: 10
+                color: "red"
+            }
         }
     }
 }

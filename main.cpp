@@ -19,9 +19,11 @@ int main(int argc, char *argv[])
         QStringLiteral("Line should not be created in QML"));
 
     Line line;
+    Line line2;
     QQmlApplicationEngine engine;
 
     engine.rootContext()->setContextProperty(QStringLiteral("line"),&line);     //向qml設定line屬性
+    engine.rootContext()->setContextProperty(QStringLiteral("line2"),&line2);     //向qml設定line2屬性
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

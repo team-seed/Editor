@@ -222,7 +222,7 @@ void Line::resetItemAt(int index)
         /*由下往上取消*/
         if(mItems[index].turningPoint!=-1){
           if(index == mItems[index].turningPoint){
-            qDebug()<<index<<": turningPoint 指向自己";
+            //qDebug()<<index<<": turningPoint 指向自己";
             mItems[index].turningPoint = -1;
           }else{
             resetItemAt(mItems[index].turningPoint);
@@ -253,9 +253,9 @@ void Line::resetItemAt(int index)
     mItems[index].type = -1;
     mItems[index].gesture = -1;
     mItems[index].direction = -1;
-    qDebug()<<"Reset"<<index<<"OK";
+   // qDebug()<<"Reset"<<index<<"OK";
 }
-
+/*
 bool Line::loadNotes(double time,QJsonObject input)
 {
 
@@ -432,7 +432,7 @@ bool Line::loadNotes(double time,QJsonObject input)
     }
     return true;
 }
-
+*/
 void Line::setBeatLines(double time,double bpm,int beat,double offset)
 {
     //Remove old line
@@ -444,7 +444,7 @@ void Line::setBeatLines(double time,double bpm,int beat,double offset)
     double previousTime = 0 ;
     for(int i=0;i<mItems.size();i++){
         if(mItems[i].time >offset && previousTime ==0){
-            qDebug()<<"Remove Line :"<<i;
+            //qDebug()<<"Remove Line :"<<i;
             previousTime = mItems[i-1].time;
             mTotalHeight -= mItems[i].buttonHeight;
             emit preItemRemoved(i,i);
@@ -465,18 +465,18 @@ void Line::setBeatLines(double time,double bpm,int beat,double offset)
     for(Linetime = count*spacing+offset ; Linetime>offset;Linetime-=spacing){
         if((count-currentLine)%beat==0 && (Linetime-offset)>0.1){
            appendItem(Linetime,10,qRound(spacing),"royalblue",false,currentLine,true);
-           qDebug()<<"preHeight: "<<mTotalHeight;
+           //qDebug()<<"preHeight: "<<mTotalHeight;
            mTotalHeight += qRound(spacing);
-           qDebug()<<"poeheight"<<mTotalHeight<<"spacing: "<<spacing;
+           //qDebug()<<"poeheight"<<mTotalHeight<<"spacing: "<<spacing;
          }
         else if((Linetime-offset)>0.1){
            appendItem(Linetime,5,qRound(spacing),"lightblue",false,currentLine,true);
            mTotalHeight += qRound(spacing);
         }
-        qDebug()<<"Line: "<<currentLine<<" Time: "<<Linetime;
+        //qDebug()<<"Line: "<<currentLine<<" Time: "<<Linetime;
         currentLine++;
     }
-    qDebug()<<"preHeight: "<<mTotalHeight;
+    //qDebug()<<"preHeight: "<<mTotalHeight;
     if(offset!=0 && previousTime==0){
         appendItem(offset,2,offset,"black",false,mItems.size(),true);
         mTotalHeight += offset;
@@ -543,11 +543,7 @@ void Line::sliceAt(int index, int slice)
     }else{
         return;
     }
-    // slice前
-    for(int i=0;i<mItems.size();i++){
-        if(mItems[i].turningPoint!=-1)  qDebug()<<"slice前: "<<i<<": tp = "<< mItems[i].turningPoint;
-        else if(mItems[i].previous!=-1)  qDebug()<<"slice前: "<<i<<": previous = "<< mItems[i].previous;
-    }
+
 
     double currentHeight = mItems[index].buttonHeight;
     double slicedHeight  = (double)currentHeight/slice;
@@ -615,7 +611,7 @@ double Line::shapeHeight(int previous)
 
 double Line::getTotalHeight()
 {
-    qDebug()<<"Height: "<<mTotalHeight;
+    //qDebug()<<"Height: "<<mTotalHeight;
     return mTotalHeight;
 }
 
