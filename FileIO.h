@@ -12,7 +12,7 @@ class FileIO : public QObject{
 
     QString get_path(QUrl url){
         QString filename = url.path();
-        filename.remove(0,1); //cut first '/'
+       // filename.remove(0,1); //cut first '/'
         return filename;
     }
 
@@ -22,7 +22,7 @@ public slots:
     }
 
     QJsonObject openchart(QUrl fileurl){
-        QFile file(get_path(fileurl));
+        QFile file(fileurl.toLocalFile());
         QJsonObject json_data;
 
         file.open(QIODevice::ReadOnly);
@@ -40,18 +40,20 @@ public slots:
         return json_data;
     }
     bool savechart(QUrl fileurl, QJsonObject chart){
-        QFile file(get_path(fileurl));
+        QFile file(fileurl.toLocalFile());
         QByteArray data=QJsonDocument(chart).toJson(QJsonDocument::Indented);
+
+
 
         file.open(QIODevice::WriteOnly);
         if(!file.isOpen()){
             qDebug()<<"open file fail";
-            return 0;
+            return false;
         }
 
         file.write(data);
         file.close();
-        return 1;
+        return true;
     }
     void test(QJsonObject a){
         //Qobject can connect with qml

@@ -437,9 +437,9 @@ Column {
 
     CheckBox{
         id:mode_switch
-        text: "EditorMode"
+        text: "LayerSwitch"
         onCheckStateChanged: {
-            mode = mode_switch.checked?1:-1
+            mode = mode_switch.checked ? 1 : -1
         }
     }
     Button{
