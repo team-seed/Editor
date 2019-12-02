@@ -37,7 +37,7 @@ Rectangle {
             contentY: contenty
             onContentYChanged: {
                 if( song_slider.value != view_height - sub_view.contentY){
-                    song_slider.value = ( view_height - sub_view.contentY );
+                    setSliderValue(contentY)
                 }
             }
             ListView{
@@ -58,13 +58,15 @@ Rectangle {
                 contentY:  contenty
                 onContentYChanged: {
                     if( song_slider.value != view_height - sub_view.contentY){
-                        song_slider.value = ( view_height - sub_view.contentY );
+                       chart_view.setSliderValue(sub_view.contentY)
                     }
                 }
                 z:mode
 
             }
-
+            function setSliderValue(contentValue){
+                song_slider.value = (view_height - contentValue);
+            }
         }
 
     }

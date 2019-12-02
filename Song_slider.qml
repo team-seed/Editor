@@ -57,7 +57,7 @@ Slider {
     onValueChanged: {
         //譜面連動
         if(lane.contenty != view_height - song_slider.value ){
-            lane.contenty = view_height-song_slider.value
+            lane.contenty = view_height - song_slider.value
         }
         if(song_slider.value>=player.time - 10){
             player.pause()

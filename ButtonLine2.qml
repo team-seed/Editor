@@ -32,6 +32,27 @@ RowLayout{
         }
         Shape{
             anchors.left: parent.left
+            anchors.top:  parent.top
+            visible: (model.type==0)?true:false
+            ShapePath{
+                strokeWidth: 0
+                strokeColor: "slateblue"
+                fillGradient: LinearGradient{
+                    x1:  model.left*lane_background.width/16; y1: 0
+                    x2:  (model.right + 1)*lane_background.width/16; y2: -20
+                    GradientStop { position: 0  ; color: "skyblue"  }
+                    GradientStop { position: 0.7; color: "slateblue"       }
+                    GradientStop { position: 1  ; color: "slategray"          }
+                }
+                startX: model.left*lane_background.width/16 ;       startY: 0
+                PathLine { x:(model.right+1)*lane_background.width/16; y: 0 }
+                PathLine { x:(model.right+1)*lane_background.width/16; y: -20 }
+                PathLine { x: model.left    *lane_background.width/16; y: -20 }
+                PathLine { x: model.left    *lane_background.width/16; y: 0 }
+            }
+        }
+        Shape{
+            anchors.left: parent.left
             anchors.top: parent.top
             visible: (model.type!==1)?false:true
             ShapePath {
@@ -40,11 +61,11 @@ RowLayout{
                 fillGradient: LinearGradient {
                     x1:  model.left*lane_background.width/16; y1: 0
                     x2:(line2.shapeRight(model.previous)+1)*lane_background.width/16 ; y2: line2.shapeHeight(model.previous)
-                    GradientStop { position: 0; color: "lightsalmon" }
-                    GradientStop { position: 0.2; color: "tomato" }
-                    GradientStop { position: 0.4; color: "red" }
-                    GradientStop { position: 0.6; color: "crimson" }
-                    GradientStop { position: 1; color: "brown" }
+                    GradientStop { position: 0; color: "slateblue" }
+                    GradientStop { position: 0.2; color: "darkslateblue" }
+                    GradientStop { position: 0.4; color: "darkblue" }
+                    GradientStop { position: 0.6; color: "navy" }
+                    GradientStop { position: 1; color: "midnightblue" }
                 }
                 //strokeStyle: ShapePath.DashLine
                 //dashPattern: [ 1, 4 ]

@@ -32,6 +32,27 @@ RowLayout{
         }
         Shape{
             anchors.left: parent.left
+            anchors.top:  parent.top
+            visible: (model.type==0)?true:false
+            ShapePath{
+                strokeWidth: 0
+                strokeColor: "saddlebrown"
+                fillGradient: LinearGradient{
+                    x1:  model.left*lane_background.width/16; y1: 0
+                    x2:  (model.right + 1)*lane_background.width/16; y2: -20
+                    GradientStop { position: 0  ; color: "saddlebrown"  }
+                    GradientStop { position: 0.7; color: "sienna"       }
+                    GradientStop { position: 1  ; color: "tan"          }
+                }
+                startX: model.left*lane_background.width/16 ;       startY: 0
+                PathLine { x:(model.right+1)*lane_background.width/16; y: 0 }
+                PathLine { x:(model.right+1)*lane_background.width/16; y: -20 }
+                PathLine { x: model.left    *lane_background.width/16; y: -20 }
+                PathLine { x: model.left    *lane_background.width/16; y: 0 }
+            }
+        }
+        Shape{
+            anchors.left: parent.left
             anchors.top: parent.top
             visible: (model.type!==1)?false:true
             ShapePath {
