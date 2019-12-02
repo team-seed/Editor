@@ -4,10 +4,11 @@ import QtQuick.Controls 2.2
 //slider
 Slider {
     id:song_slider
+    property double time_position: 0
     wheelEnabled: true
     orientation: Qt.Vertical
     from: 0
-    value: 0
+    value: time_position
     to: player.time
     implicitWidth: 26
     implicitHeight: parent.height-100
@@ -55,6 +56,8 @@ Slider {
 
     onValueChanged: {
         //譜面連動
-        lane.contenty=chart_center+(view_height/2)-(song_slider.value*lane.billy)
+        if(lane.contenty != view_height - song_slider.value ){
+            lane.contenty = view_height-song_slider.value
+        }
     }
 }

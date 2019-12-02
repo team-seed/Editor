@@ -161,8 +161,16 @@ bool Line::setItemAt(int index, const LineItem &item,int role)
 
 /*設定按下的位置如果是已選取的範圍則為取消該範圍*/
     QString status="";
-    if(role>=mItems[index].left && role<=mItems[index].right)
+    if(role>mItems[index].left && role<mItems[index].right)
         status = "0000000000000000";
+    else if(role==mItems[index].left && mItems[index].right>role){
+        mItems[index].left += 1;
+        mItems[index].checked[role] =false;
+    }
+    else if(role == mItems[index].right && mItems[index].left<role ){
+        mItems[index].right -= 1;
+        mItems[index].checked[role] =false;
+    }
     else{
         mItems[index] = item;
         for(int i=0;i<16;i++){

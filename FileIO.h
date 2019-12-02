@@ -3,10 +3,13 @@
 #include <QObject>
 #include <QUrl>
 #include <QFile>
+#include <QFileInfo>
+#include <QDir>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QDebug>
 using namespace std;
+
 class FileIO : public QObject{
     Q_OBJECT
 
@@ -42,8 +45,13 @@ public slots:
     bool savechart(QUrl fileurl, QJsonObject chart){
         QFile file(fileurl.toLocalFile());
         QByteArray data=QJsonDocument(chart).toJson(QJsonDocument::Indented);
-
-
+        if(!file.exists() && fileurl.toString()=="autoSaved.json"){
+            QDir dir;
+            dir.mkpath(dir.homePath()+"/QtAutoSave");
+            QString filepath = dir.homePath() +"/QtAutoSave/" +fileurl.toString();
+            qDebug()<<filepath;
+            file.setFileName(filepath);
+        }
 
         file.open(QIODevice::WriteOnly);
         if(!file.isOpen()){

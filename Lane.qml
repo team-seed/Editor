@@ -6,8 +6,7 @@ import QtQuick.Layouts 1.12
 Rectangle {
     id:lane_background
     property bool first_insert: false
-    //property int view_height: 0
-    property int contenty: view_height
+    property double contenty: view_height
     //比例 ㄏㄏ
     property double billy: 1
     width:height*0.7
@@ -24,7 +23,6 @@ Rectangle {
         ListView{
             id:chart_view
             clip: true
-            contentY: contenty
             boundsBehavior: Flickable.StopAtBounds
             model: LineModel{
                 mline: line
@@ -33,10 +31,10 @@ Rectangle {
                 width:parent.width
                 visible: true
             }
-            onContentYChanged:{
-                if ( (chart_center+view_height/2)-contentY > 0 &&
-                        contentY >= (chart_center-view_height/2) ){
-                    song_slider.value= ((chart_center+view_height/2)-contentY)/billy
+            contentY: contenty
+            onContentYChanged: {
+                if( song_slider.value != view_height - sub_view.contentY){
+                    song_slider.value = ( view_height - sub_view.contentY );
                 }
             }
             ListView{
@@ -51,26 +49,16 @@ Rectangle {
                     width:parent.width
                     visible:true
                 }
-                onContentYChanged:{
-                    if ( (chart_center+view_height/2)-contentY > 0 &&
-                            contentY >= (chart_center-view_height/2) ){
-                        song_slider.value= ((chart_center+view_height/2)-contentY)/billy
+                contentY:  contenty
+                onContentYChanged: {
+                    if( song_slider.value != view_height - sub_view.contentY){
+                        song_slider.value = ( view_height - sub_view.contentY );
                     }
                 }
-                contentY: chart_view.contentY
                 z:mode
             }
         }
 
-/*縮放用
-        Keys.onPressed: {
-            if (event.key == Qt.Key_Control) {
-                console.log("!")
-                mouse.z = 1
-                mouse.focus=true
-            }
-        }
-*/
     }
 
     //left
@@ -135,35 +123,8 @@ Rectangle {
         anchors.bottomMargin: parent.height/5
         Component.onCompleted: chart_bottom_padding=height
     }
-/*
-    //scale lane size
-    MouseArea{
-        id: mouse
-        anchors.fill: sv
-        z: -1
-        onWheel: {
-            chart_center=chart_center
-            contenty=contenty
-            view_height=view_height
 
-            if (wheel.modifiers){
 
-                if(wheel.angleDelta.y < 0){
-
-                }
-                else if(wheel.angleDelta.y > 0){
-
-                }
-            }
-        }
-        Keys.onReleased: {
-             if (event.key == Qt.Key_Control){
-                mouse.z = -1
-                sv.focus=true
-             }
-        }
-    }
-    */
 }
 /*縮放用
                 if(wheel.angleDelta.y<0){

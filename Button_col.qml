@@ -11,6 +11,8 @@ Column {
     property variant temp:[]
     property variant temp2:[]
     property variant editorInfo: []
+    property variant savedfile: "autoSaved.json"
+    property bool autoSaved: false
 
     //Open Chart
     Button{
@@ -25,6 +27,7 @@ Column {
             id : openchart
             onAccepted:{
                 all_chart=fileIO.openchart(file)
+                savedfile = file
                 if(all_chart.length===0)
                     console.log("Error")
                 else{
@@ -38,12 +41,40 @@ Column {
                     select_part_content.append({"text" : "PART"+(i+1)})
                 part_select.currentIndex=0
                 detail.setdetail()
-                 view_height = line.getTotalHeight()-lane.height
+                view_height = line.getTotalHeight()-lane.height
+                autoSaved = true;
             }
         }
     }
 
     //save Chart
+    Timer{
+        id: autoSave
+        repeat: true
+        interval: 6000
+        running: autoSaved
+        onTriggered: {
+            temp = line.editorFileSave()
+            temp2 = line2.editorFileSave()
+            for(var i=0;i<part.length;i++)
+                part[i]["NOTES"] = [];
+            part[0]["NOTES"].push([]);
+            part[0]["NOTES"].push([]);
+            for(var i=0;i<temp.length;i++){
+                part[0]["NOTES"][0].push(temp[i]);
+            }
+            for(var i=0;i<temp2.length;i++){
+                part[0]["NOTES"][1].push(temp2[i]);
+            }
+            all_chart["SECTION"] = part;
+            if(savedfile!="autoSaved.json"){
+                var index = savedfile.toString().lastIndexOf('/')
+                savedfile = savedfile.toString().substring(0,index)+"/autoSaved.json"
+            }
+            fileIO.savechart(savedfile,all_chart)
+            console.log("auto saved")
+        }
+    }
     Button{
         anchors.horizontalCenter: parent.horizontalCenter
         id:chart_save
@@ -51,7 +82,6 @@ Column {
         onClicked: {
             if(player.isready()){
 
-                //temp =line.noteOutput();
                 temp = line.editorFileSave()
                 temp2 = line2.editorFileSave()
                 for(var i=0;i<part.length;i++)
@@ -72,6 +102,7 @@ Column {
             id : savechart
             fileMode: FileDialog.SaveFile
             onAccepted:{
+                savedfile = file
                 if(!fileIO.savechart(file,all_chart))
                     console.log("save fail")
             }
@@ -279,6 +310,7 @@ Column {
                                 line.setBeatLines(player.time,bpm,beat,offset);
                                 line2.setBeatLines(player.time,bpm,beat,offset);
                                 view_height = line.getTotalHeight()-lane.height
+                                autoSaved = true;
                                 add_window.close()
                             }
                         }
