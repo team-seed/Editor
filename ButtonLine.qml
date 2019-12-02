@@ -85,7 +85,9 @@ RowLayout{
             anchors.top: parent.verticalCenter
             anchors.topMargin: -10
             onClicked: {
+                line2.sliceAt(model.index,2)
                 model.refresh = line.sliceAt(model.index,2)        //把index這條Beat切成2等分
+                call_refresh()
             }
             background:Rectangle{
                 color: "plum"
@@ -101,30 +103,15 @@ RowLayout{
             anchors.top: parent.verticalCenter
             anchors.topMargin: 10
             onClicked: {
+                line2.sliceAt(model.index,3)
                 model.refresh = line.sliceAt(model.index,3)        //把index這條Beat切成3等分
+                call_refresh()
             }
             background:Rectangle{
                 color: "palegreen"
             }
         }
-        Button{
-            id:deleter
-            width: 15
-            height: 15
-            anchors.left: parent.left
-            anchors.leftMargin: 10
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 5
-            visible: line.deletable(model.index+1)
-            onClicked: {
-                model.refresh = line.removeLineAt(model.index+1)      //刪掉index+1這條線
-            }
-            background: Text{
-                text: "✖"
-                font.pointSize: 10
-                color: "red"
-            }
-        }
+
 
 
         Text{
@@ -346,6 +333,27 @@ RowLayout{
             height: model.bold
             implicitHeight: model.button_height
             color: b16.checked ? "red" : model.color
+        }
+
+        Button{
+            id:deleter
+            width: 15
+            height: 15
+            anchors.right: parent.right
+            anchors.rightMargin: 10
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 5
+            visible: line.deletable(model.index+1)
+            onClicked: {
+                line2.removeLineAt(model.index+1)
+                model.refresh = line.removeLineAt(model.index+1)      //刪掉index+1這條線
+                call_refresh()
+            }
+            background: Text{
+                text: "✖"
+                font.pointSize: 10
+                color: "red"
+            }
         }
     }
 }

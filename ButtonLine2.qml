@@ -295,6 +295,7 @@ RowLayout{
             implicitHeight: model.button_height
             color: b16.checked ? "red" : model.color
         }
+        /*
         Button{
             id:slicer_2
             width: 15
@@ -305,7 +306,7 @@ RowLayout{
             anchors.top: parent.verticalCenter
             anchors.topMargin: -10
             onClicked: {
-                model.refresh = line2.sliceAt(model.index,2)        //把index這條Beat切成2等分
+                sliceAt(2)//model.refresh = line2.sliceAt(model.index,2)        //把index這條Beat切成2等分
             }
             background:Rectangle{
                 color: "plum"
@@ -321,7 +322,7 @@ RowLayout{
             anchors.top: parent.verticalCenter
             anchors.topMargin: 10
             onClicked: {
-                model.refresh = line2.sliceAt(model.index,3)        //把index這條Beat切成3等分
+                sliceAt(3)//model.refresh = line2.sliceAt(model.index,3)        //把index這條Beat切成3等分
             }
             background:Rectangle{
                 color: "palegreen"
@@ -337,7 +338,7 @@ RowLayout{
             anchors.bottomMargin: 5
             visible: line2.deletable(model.index+1)
             onClicked: {
-                refresh = line2.removeLineAt(model.index+1)      //刪掉index+1這條線
+                remove()//model.refresh = line2.removeLineAt(model.index+1)      //刪掉index+1這條線
             }
             background: Text{
                 text: "✖"
@@ -345,5 +346,6 @@ RowLayout{
                 color: "red"
             }
         }
+    */
     }
 }

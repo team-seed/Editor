@@ -30,6 +30,9 @@ Rectangle {
             delegate:ButtonLine{
                 width:parent.width
                 visible: true
+                function call_refresh(){
+                    sub_view.currentItem.refreshAll();
+                }
             }
             contentY: contenty
             onContentYChanged: {
@@ -48,6 +51,9 @@ Rectangle {
                 delegate: ButtonLine2{
                     width:parent.width
                     visible:true
+                    function refreshAll(){
+                        model.refresh = true;
+                    }
                 }
                 contentY:  contenty
                 onContentYChanged: {
@@ -56,7 +62,9 @@ Rectangle {
                     }
                 }
                 z:mode
+
             }
+
         }
 
     }
