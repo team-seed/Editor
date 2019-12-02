@@ -51,7 +51,7 @@ Column {
     Timer{
         id: autoSave
         repeat: true
-        interval: 6000
+        interval: 60000
         running: autoSaved
         onTriggered: {
             temp = line.editorFileSave()
