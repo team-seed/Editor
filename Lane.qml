@@ -20,6 +20,7 @@ Rectangle {
         clip:true
         focus: true
         focusPolicy: Qt.WheelFocus
+        ScrollBar.vertical: ScrollBar{}
         ListView{
             id:chart_view
             clip: true
