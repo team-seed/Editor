@@ -23,16 +23,18 @@ RowLayout{
         Text{
             text:model.direction===0?"↑":model.direction===1?"↓":model.direction===2?"←":"→"
             visible: (model.type!==2)?false:true
-            color: "firebrick"
+            color: "indigo"
             font.bold: true
-            style: Text.Outline; styleColor: "red"
+            style: Text.Outline; styleColor: "navy"
             font.pointSize: 50
+            opacity: 0.9
             x: (model.left+model.right-1)*lane_background.width/32
             anchors.bottom: parent.top
         }
         Shape{
             anchors.left: parent.left
             anchors.top:  parent.top
+            opacity: 0.7
             visible: (model.type==0)?true:false
             ShapePath{
                 strokeWidth: 0
@@ -54,6 +56,7 @@ RowLayout{
         Shape{
             anchors.left: parent.left
             anchors.top: parent.top
+            opacity: 0.7
             visible: (model.type!==1)?false:true
             ShapePath {
                // strokeWidth: 0

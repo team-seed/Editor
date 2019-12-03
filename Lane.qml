@@ -34,12 +34,13 @@ Rectangle {
                     sub_view.currentItem.refreshAll();
                 }
             }
-            contentY: contenty
+            contentY : contenty
             onContentYChanged: {
-                if( song_slider.value != view_height - sub_view.contentY){
-                    setSliderValue(contentY)
+                if( song_slider.value !== view_height - chart_view.contentY){
+                    chart_view.setSliderValue(chart_view.contentY)
                 }
             }
+
             ListView{
                 id:sub_view
                 clip: true
@@ -55,12 +56,13 @@ Rectangle {
                         model.refresh = true;
                     }
                 }
-                contentY:  contenty
+                contentY : contenty
                 onContentYChanged: {
-                    if( song_slider.value != view_height - sub_view.contentY){
+                    if( song_slider.value !== view_height - sub_view.contentY){
                        chart_view.setSliderValue(sub_view.contentY)
                     }
                 }
+
                 z:mode
 
             }

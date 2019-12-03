@@ -461,7 +461,6 @@ void Line::setBeatLines(double time,double bpm,int beat,double offset)
             i--;
         }
     }
-    int CurrentSize = mItems.size();
     moffset = offset;
     int count = ceil( (time-offset)/((double)60000/bpm) );
     double spacing = (double)60000/bpm;
