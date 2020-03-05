@@ -1,6 +1,6 @@
 ## 需求整理
 ### 控制項
-####  - 讀入歌曲    ( [Select Audio]() )
+####  - 讀入歌曲    ( [Select Audio](https://github.com/team-seed/Editor/blob/master/Controls/SelectAudio.md) )
 ####  - 設定bpm,offset,beat ( Add Section )
 ####  - 切出1/n線 ( Slice )
 ####  - 選取Note ( TypeSet )
